@@ -1,0 +1,6 @@
+# Properties的基于yml的配置
+spring:
+  profiles:
+    active: dev
+
+
