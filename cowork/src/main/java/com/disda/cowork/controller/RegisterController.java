@@ -26,8 +26,8 @@ public class RegisterController {
     ISendMailService sendMailService;
     @PostMapping("/register")
     public RespBean Register(@RequestBody Admin admin) throws BusinessException {
-
-        return null;
+        throw new BusinessException(EmBusinessError.MAIL_NOT_EXIST);
+//        return null;
 
     }
 }
