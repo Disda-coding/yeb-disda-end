@@ -6,9 +6,13 @@ package com.disda.cowork.pojo;
 
 
 
+import com.baomidou.mybatisplus.extension.api.R;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 公共返回对象
@@ -61,6 +65,10 @@ public class RespBean {
      */
     public static RespBean error(String message,Object obj){
         return new RespBean(500,message,obj);
+    }
+
+    public static RespBean error(Map<String,Object> respMap){
+        return new RespBean((Long)respMap.get("code"),(String)respMap.get("message"),null);
     }
 
 }

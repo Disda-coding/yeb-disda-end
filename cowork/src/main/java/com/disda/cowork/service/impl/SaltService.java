@@ -58,9 +58,6 @@ public class SaltService implements ISaltService {
 
     @Override
     public RespBean verificationCodeGenerate(String username,String mailAddr) {
-        if(mailAddr==null || !sendMailService.checkEmail(mailAddr)){
-            return RespBean.error("请输入有效的邮箱地址");
-        }
         if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + username))) {
             return RespBean.error("请勿重复请求邮箱验证码");
         }

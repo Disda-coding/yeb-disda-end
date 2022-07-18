@@ -18,6 +18,7 @@ import com.disda.cowork.utils.AesUtils;
 import jdk.nashorn.internal.runtime.logging.Logger;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -215,5 +216,13 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         return RespBean.error("更新失败");
     }
 
+//    private UserModel convertFromDataObject(Admin userDO, AdminInfo userPasswordDO) {
+//        if (userDO==null) return null;
+//        UserModel userModel=new UserModel();
+//        BeanUtils.copyProperties(userDO, userModel);
+//        if (userPasswordDO!=null)
+//            userModel.setPassword(userPasswordDO.getPassword());
+//        return userModel;
+//    }
 
 }

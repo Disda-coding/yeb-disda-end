@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         web.ignoring().antMatchers(
                 "/login",
+                "/register",
                 "/getSalt",
                 "/loginC",
                 "/logout",
