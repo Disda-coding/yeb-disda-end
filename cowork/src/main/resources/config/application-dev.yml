@@ -56,21 +56,21 @@ spring:
         #最小空闲连接
         min-idle: 5
 
-  # rabbitmq配置
-  rabbitmq:
-    # 用户名
-    username: admin
-    # 密码
-    password: admin
-    virtual-host: /
-    # 服务器地址(自己的虚拟机)
-    host: 192.168.78.20
-    # 端口
-    port: 5672
-    #消息确认回调
-    publisher-confirm-type: correlated
-    #消息失败回调
-    publisher-returns: true
+#  # rabbitmq配置
+#  rabbitmq:
+#    # 用户名
+#    username: admin
+#    # 密码
+#    password: admin
+#    virtual-host: /
+#    # 服务器地址(自己的虚拟机)
+#    host: 192.168.78.20
+#    # 端口
+#    port: 5672
+#    #消息确认回调
+#    publisher-confirm-type: correlated
+#    #消息失败回调
+#    publisher-returns: true
 
 
   #这个项目访问都需要加上/demo
