@@ -1,6 +1,6 @@
 package com.disda.cowork.utils;
 
-import com.disda.cowork.pojo.Admin;
+import com.disda.cowork.po.Admin;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 

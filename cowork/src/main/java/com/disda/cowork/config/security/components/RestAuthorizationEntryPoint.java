@@ -1,6 +1,6 @@
 package com.disda.cowork.config.security.components;
 
-import com.disda.cowork.pojo.RespBean;
+import com.disda.cowork.vo.RespBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -1,7 +1,7 @@
 package com.disda.cowork.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.disda.cowork.pojo.MenuRole;
+import com.disda.cowork.po.MenuRole;
 
 /**
  * <p>

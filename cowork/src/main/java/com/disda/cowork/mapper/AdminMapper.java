@@ -1,7 +1,7 @@
 package com.disda.cowork.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.disda.cowork.pojo.Admin;
+import com.disda.cowork.po.Admin;
 
 import java.util.List;
 

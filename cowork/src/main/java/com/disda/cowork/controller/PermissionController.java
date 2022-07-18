@@ -2,10 +2,10 @@ package com.disda.cowork.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.disda.cowork.pojo.Menu;
-import com.disda.cowork.pojo.MenuRole;
-import com.disda.cowork.pojo.RespBean;
-import com.disda.cowork.pojo.Role;
+import com.disda.cowork.po.Menu;
+import com.disda.cowork.po.MenuRole;
+import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IMenuRoleService;
 import com.disda.cowork.service.IMenuService;
 import com.disda.cowork.service.IRoleService;

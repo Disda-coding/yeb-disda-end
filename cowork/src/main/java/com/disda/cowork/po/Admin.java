@@ -1,4 +1,4 @@
-package com.disda.cowork.pojo;
+package com.disda.cowork.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

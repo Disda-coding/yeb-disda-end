@@ -1,7 +1,7 @@
 package com.disda.cowork.controller;
 
 import com.disda.cowork.vo.AdminLoginParam;
-import com.disda.cowork.pojo.RespBean;
+import com.disda.cowork.vo.RespBean;
 import com.disda.cowork.service.ISaltService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.disda.cowork.controller;
 
 
-import com.disda.cowork.pojo.Menu;
+import com.disda.cowork.po.Menu;
 import com.disda.cowork.service.IMenuService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

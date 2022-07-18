@@ -1,7 +1,7 @@
 package com.disda.cowork.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.disda.cowork.pojo.Joblevel;
+import com.disda.cowork.po.Joblevel;
 
 /**
  * <p>

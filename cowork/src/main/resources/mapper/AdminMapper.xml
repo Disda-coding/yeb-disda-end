@@ -3,7 +3,7 @@
 <mapper namespace="com.disda.cowork.mapper.AdminMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.disda.cowork.pojo.Admin">
+    <resultMap id="BaseResultMap" type="com.disda.cowork.po.Admin">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="phone" property="phone" />

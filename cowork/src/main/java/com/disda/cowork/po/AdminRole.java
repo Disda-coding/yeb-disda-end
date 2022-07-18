@@ -1,4 +1,4 @@
-package com.disda.cowork.pojo;
+package com.disda.cowork.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -17,14 +17,14 @@ import java.io.Serializable;
  * </p>
  *
  * @author disda
- * @since 2022-01-26
+ * @since 2022-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_menu_role")
-@ApiModel(value="MenuRole对象", description="")
-public class MenuRole implements Serializable {
+@TableName("t_admin_role")
+@ApiModel(value="AdminRole对象", description="")
+public class AdminRole implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -32,8 +32,8 @@ public class MenuRole implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "菜单id")
-    private Integer mid;
+    @ApiModelProperty(value = "用户id")
+    private Integer adminId;
 
     @ApiModelProperty(value = "权限id")
     private Integer rid;

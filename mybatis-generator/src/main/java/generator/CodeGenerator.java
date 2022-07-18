@@ -63,7 +63,7 @@ public class CodeGenerator {
         PackageConfig pc = new PackageConfig();
         //pc.setModuleName(scanner("模块名"));
         pc.setParent("com.disda.cowork")
-                .setEntity("pojo")
+                .setEntity("po")
                 .setMapper("mapper")
                 .setService("service")
                 .setServiceImpl("service.impl")

@@ -3,7 +3,7 @@ package com.disda.cowork.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.mapper.JoblevelMapper;
-import com.disda.cowork.pojo.Joblevel;
+import com.disda.cowork.po.Joblevel;
 import com.disda.cowork.service.IJoblevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

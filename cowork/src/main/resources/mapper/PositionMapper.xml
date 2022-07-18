@@ -3,7 +3,7 @@
 <mapper namespace="com.disda.cowork.mapper.PositionMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.disda.cowork.pojo.Position">
+    <resultMap id="BaseResultMap" type="com.disda.cowork.po.Position">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="createDate" property="createDate" />

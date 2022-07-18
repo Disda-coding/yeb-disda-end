@@ -1,4 +1,4 @@
-package com.disda.cowork.pojo;
+package com.disda.cowork.vo;
 /**
  * @Author disda
  * @Date 2022/1/10
@@ -6,12 +6,10 @@ package com.disda.cowork.pojo;
 
 
 
-import com.baomidou.mybatisplus.extension.api.R;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

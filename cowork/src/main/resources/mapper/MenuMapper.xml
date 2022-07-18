@@ -3,7 +3,7 @@
 <mapper namespace="com.disda.cowork.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.disda.cowork.pojo.Menu">
+    <resultMap id="BaseResultMap" type="com.disda.cowork.po.Menu">
         <id column="id" property="id" />
         <result column="url" property="url" />
         <result column="path" property="path" />
@@ -15,8 +15,8 @@
         <result column="enabled" property="enabled" />
     </resultMap>
 
-    <resultMap id="Menus" type="com.disda.cowork.pojo.Menu" extends="BaseResultMap">
-        <collection property="children" ofType="com.disda.cowork.pojo.Menu">
+    <resultMap id="Menus" type="com.disda.cowork.po.Menu" extends="BaseResultMap">
+        <collection property="children" ofType="com.disda.cowork.po.Menu">
             <id column="id2" property="id" />
             <result column="url2" property="url" />
             <result column="path2" property="path" />
@@ -29,22 +29,22 @@
         </collection>
     </resultMap>
 
-    <resultMap id="MenusWithRole" type="com.disda.cowork.pojo.Menu" extends="BaseResultMap">
-        <collection property="roles" ofType="com.disda.cowork.pojo.Role">
+    <resultMap id="MenusWithRole" type="com.disda.cowork.po.Menu" extends="BaseResultMap">
+        <collection property="roles" ofType="com.disda.cowork.po.Role">
             <id column="rid" property="id"/>
             <result column="rname" property="name"/>
             <result column="rnameZh" property="nameZh"/>
         </collection>
     </resultMap>
-    <resultMap id="MenusWithChildren" type="com.disda.cowork.pojo.Menu" extends="BaseResultMap">
+    <resultMap id="MenusWithChildren" type="com.disda.cowork.po.Menu" extends="BaseResultMap">
         <id column="id1" property="id"/>
         <result column="name1" property="name"/>
 
-        <collection property="children" ofType="com.disda.cowork.pojo.Menu">
+        <collection property="children" ofType="com.disda.cowork.po.Menu">
             <id column="id2" property="id"/>
             <result column="name2" property="name"/>
 
-            <collection property="children" ofType="com.disda.cowork.pojo.Menu">
+            <collection property="children" ofType="com.disda.cowork.po.Menu">
                 <id column="id3" property="id"/>
                 <result column="name3" property="name"/>
             </collection>

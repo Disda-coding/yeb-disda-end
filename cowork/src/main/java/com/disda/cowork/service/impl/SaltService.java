@@ -4,18 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.mapper.AdminMapper;
-import com.disda.cowork.pojo.Admin;
-import com.disda.cowork.pojo.RespBean;
+import com.disda.cowork.po.Admin;
+import com.disda.cowork.vo.RespBean;
 import com.disda.cowork.service.ISaltService;
 import com.disda.cowork.service.ISendMailService;
 import com.disda.cowork.utils.SaltUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 

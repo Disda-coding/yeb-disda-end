@@ -3,7 +3,7 @@
 <mapper namespace="com.disda.cowork.mapper.RoleMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.disda.cowork.pojo.Role">
+    <resultMap id="BaseResultMap" type="com.disda.cowork.po.Role">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="nameZh" property="nameZh" />
@@ -14,7 +14,7 @@
         id, name, nameZh
     </sql>
     <!--根据用户id查找角色列表-->
-    <select id="getRoles" resultType="com.disda.cowork.pojo.Role">
+    <select id="getRoles" resultType="com.disda.cowork.po.Role">
         SELECT
             r.id,
             r.`name`,

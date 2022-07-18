@@ -2,7 +2,7 @@ package com.disda.cowork.config.security;
 
 
 import com.disda.cowork.config.security.components.*;
-import com.disda.cowork.pojo.Admin;
+import com.disda.cowork.po.Admin;
 import com.disda.cowork.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

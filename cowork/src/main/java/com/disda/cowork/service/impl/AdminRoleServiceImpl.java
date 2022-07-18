@@ -3,7 +3,7 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.mapper.AdminRoleMapper;
-import com.disda.cowork.pojo.AdminRole;
+import com.disda.cowork.po.AdminRole;
 import com.disda.cowork.service.IAdminRoleService;
 import org.springframework.stereotype.Service;
 

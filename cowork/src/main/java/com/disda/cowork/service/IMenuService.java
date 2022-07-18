@@ -1,7 +1,7 @@
 package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.disda.cowork.pojo.Menu;
+import com.disda.cowork.po.Menu;
 
 import java.util.List;
 

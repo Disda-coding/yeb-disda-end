@@ -2,8 +2,8 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.mapper.MenuMapper;
-import com.disda.cowork.pojo.Admin;
-import com.disda.cowork.pojo.Menu;
+import com.disda.cowork.po.Admin;
+import com.disda.cowork.po.Menu;
 import com.disda.cowork.service.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

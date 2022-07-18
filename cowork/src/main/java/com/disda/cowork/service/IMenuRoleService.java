@@ -1,8 +1,8 @@
 package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.disda.cowork.pojo.MenuRole;
-import com.disda.cowork.pojo.RespBean;
+import com.disda.cowork.po.MenuRole;
+import com.disda.cowork.vo.RespBean;
 
 /**
  * <p>

@@ -1,7 +1,7 @@
 package com.disda.cowork.config.security.components;
 
-import com.disda.cowork.pojo.Menu;
-import com.disda.cowork.pojo.Role;
+import com.disda.cowork.po.Menu;
+import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;

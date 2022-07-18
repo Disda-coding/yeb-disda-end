@@ -2,15 +2,11 @@ package com.disda.cowork.service.impl;
 
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.error.EmBusinessError;
-import com.disda.cowork.pojo.RespBean;
-import com.disda.cowork.service.ISaltService;
 import com.disda.cowork.service.ISendMailService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.mail.internet.MimeMessage;
