@@ -35,6 +35,7 @@ public class AdminRegisterParam {
     @Size(min=3, max=20, message="用户名长度只能在3-20之间")
     private String username;
 
+    private Integer RegisterCode;
 
 
 }
