@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mybatis-generator" />
+        <module name="admin" />
         <module name="cowork" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="admin" target="1.8" />
       <module name="cowork" target="1.8" />
       <module name="cowork-back" target="1.8" />
       <module name="mybatis-generator" target="1.8" />

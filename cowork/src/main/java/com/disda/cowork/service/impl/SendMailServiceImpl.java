@@ -1,5 +1,7 @@
 package com.disda.cowork.service.impl;
 
+import com.disda.cowork.error.BusinessException;
+import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.pojo.RespBean;
 import com.disda.cowork.service.ISaltService;
 import com.disda.cowork.service.ISendMailService;
@@ -59,21 +61,21 @@ public class SendMailServiceImpl implements ISendMailService {
     }
 
     @Override
-    public void sendRegMail(String MailAddr, String username,String verificationCode) {
+    public void sendRegMail(String MailAddr, String username,String verificationCode) throws BusinessException {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
             helper.setFrom(to+"(☁️E办)");
             helper.setTo(from);
             helper.setSubject(subject);
-            registryContent.replace("{verificationCode}", verificationCode);
-            registryContent.replace("{username}",username);
-            registryContent.replace("{addr}",MailAddr);
+            registryContent = registryContent.replace("{verificationCode}", verificationCode);
+            registryContent = registryContent.replace("{username}",username);
+            registryContent = registryContent.replace("{addr}",MailAddr);
 
             helper.setText(registryContent,true);		//此处设置正文支持html解析
             javaMailSender.send(message);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BusinessException(EmBusinessError.MAIL_NOT_EXIST);
         }
     }
 

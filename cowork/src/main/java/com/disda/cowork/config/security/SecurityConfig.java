@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
         web.ignoring().antMatchers(
                 "/login",
+                "/actuator/**",
                 "/register",
                 "/getSalt",
                 "/loginC",

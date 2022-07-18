@@ -2,6 +2,7 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.mapper.AdminMapper;
 import com.disda.cowork.pojo.Admin;
 import com.disda.cowork.pojo.RespBean;
@@ -57,7 +58,7 @@ public class SaltService implements ISaltService {
     }
 
     @Override
-    public RespBean verificationCodeGenerate(String username,String mailAddr) {
+    public RespBean verificationCodeGenerate(String username,String mailAddr) throws BusinessException {
         if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + username))) {
             return RespBean.error("请勿重复请求邮箱验证码");
         }

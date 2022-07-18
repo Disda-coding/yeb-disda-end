@@ -2,5 +2,18 @@
 spring:
   profiles:
     active: dev
+# 监控服务器url
+  boot:
+    admin:
+      client:
+        url: http://localhost:8090
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
 
 
