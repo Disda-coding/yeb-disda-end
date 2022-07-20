@@ -9,7 +9,7 @@ spring:
   # 设置邮箱
   mail:
     host: smtp.qq.com
-    username: disda@vip.qq.com
+    username: 497457669@qq.com
     password: mzekqbiclidabjfj
   #    设置数据源
   datasource:
@@ -95,6 +95,9 @@ mybatis-plus:
 logging:
   level:
     com.disda.cowork.mapper: debug
+    de:
+      codecentric: error
+
 
 
 jwt:

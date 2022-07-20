@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/login",
                 "/actuator/**",
                 "/forgot",
-                "/register",
+                "/register/**",
                 "/getSalt",
                 "/loginC",
                 "/logout",

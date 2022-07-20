@@ -27,7 +27,7 @@ public class MailTest {
     }
     @Test
     public void sendMail() throws BusinessException {
-        sendMailService.sendMail();
-//        sendMailService.sendVerificationCode("497457669@qq.com","disda","8888");
+//        sendMailService.sendMail();
+        sendMailService.sendVerificationCode("497457669@qq.com","disda","8888");
     }
 }

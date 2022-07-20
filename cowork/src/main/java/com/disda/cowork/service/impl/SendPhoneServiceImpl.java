@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SendPhoneServiceImpl implements IVerificationCodeService {
 
+
+    public boolean checkAddr(String addr) {
+        return false;
+    }
+
     @Override
     public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request) {
         return null;

@@ -65,21 +65,22 @@ public class SendMailServiceImpl implements IVerificationCodeService {
         message.setText(registryContent);
         javaMailSender.send(message);
     }
-    public boolean checkEmail(String email) {
+
+    public boolean checkAddr(String email) {
         return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
-    public void sendVerificationCode(String MailAddr, String username, String verificationCode) throws BusinessException {
+    public void sendVerificationCode(String mailAddr, String username, String verificationCode) throws BusinessException {
 
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message);
-            helper.setFrom(to+"(☁️E办)");
-            helper.setTo(from);
+            helper.setFrom(from+"(☁️E办)");
+            helper.setTo(mailAddr);
             helper.setSubject(subject);
             registryContent = registryContent.replace("{verificationCode}", verificationCode);
             registryContent = registryContent.replace("{username}",username);
-            registryContent = registryContent.replace("{addr}",MailAddr);
+            registryContent = registryContent.replace("{addr}",mailAddr);
 
             helper.setText(registryContent,true);		//此处设置正文支持html解析
             javaMailSender.send(message);
@@ -90,12 +91,16 @@ public class SendMailServiceImpl implements IVerificationCodeService {
     //地方有问题
     @Override
     public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request) throws BusinessException {
-        if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + username))) {
-            log.error(IpUtils.getIpAddr(request) +"绕过前端攻击");
-            return RespBean.error("请勿重复请求邮箱验证码");
+        if(checkAddr(mailAddr) == false){
+            log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端检查邮箱格式被绕过");
+            return RespBean.error("非法提交邮箱地址");
+        }
+        if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + mailAddr))) {
+            log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端限制多次请求被绕过");
+            return RespBean.error("非法重复请求邮箱验证码");
         }
         String verificationCode = RndUtils.generatorCode();
-        redisTemplate.opsForValue().set("verificationCode_" + username,verificationCode, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("verificationCode_" + mailAddr,verificationCode, 1, TimeUnit.MINUTES);
         sendVerificationCode(mailAddr,username,verificationCode);
         return RespBean.success("已发送邮箱，请及时查看！");
     }
