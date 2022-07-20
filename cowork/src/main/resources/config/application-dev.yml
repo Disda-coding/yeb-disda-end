@@ -5,13 +5,12 @@ server:
 aes:
   iv: 412ADDSSFA342442
 
-
 spring:
   # 设置邮箱
   mail:
     host: smtp.qq.com
     username: disda@vip.qq.com
-    password: ubmfdgngtcnccbee
+    password: mzekqbiclidabjfj
   #    设置数据源
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

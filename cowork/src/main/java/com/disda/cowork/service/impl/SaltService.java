@@ -5,14 +5,18 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.mapper.AdminMapper;
 import com.disda.cowork.po.Admin;
+import com.disda.cowork.service.IVerificationCodeService;
+import com.disda.cowork.utils.IpUtils;
 import com.disda.cowork.vo.RespBean;
 import com.disda.cowork.service.ISaltService;
-import com.disda.cowork.service.ISendMailService;
 import com.disda.cowork.utils.SaltUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +27,7 @@ import java.util.concurrent.TimeUnit;
  * @create: 2022-01-29 18:51
  */
 @Service
+@Slf4j
 public class SaltService implements ISaltService {
 
     @Autowired
@@ -30,7 +35,8 @@ public class SaltService implements ISaltService {
     @Autowired
     RedisTemplate redisTemplate;
     @Autowired
-    ISendMailService sendMailService;
+    @Qualifier("mail")
+    IVerificationCodeService sendMailService;
 
     @Override
     public RespBean generateSalt(String username) {
@@ -54,19 +60,7 @@ public class SaltService implements ISaltService {
         }
     }
 
-    @Override
-    public RespBean verificationCodeGenerate(String username,String mailAddr) throws BusinessException {
-        if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + username))) {
-            return RespBean.error("请勿重复请求邮箱验证码");
-        }
-        String verificationCode = generatorCode();
-        redisTemplate.opsForValue().set("verificationCode_" + username,verificationCode, 5, TimeUnit.MINUTES);
-        sendMailService.sendRegMail(mailAddr,username,verificationCode);
-        return RespBean.success("已发送邮箱，请及时查看！");
-    }
 
-    public String generatorCode() {
-        int code = (int) ((Math.random() * 9 + 1) * 100000);
-        return String.valueOf(code);
-    }
+
+
 }

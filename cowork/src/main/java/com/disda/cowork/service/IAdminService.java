@@ -36,6 +36,8 @@ public interface IAdminService extends IService<Admin> {
      */
     Admin getAdminByUserName(String username);
 
+    Boolean getExistUserByUserName(String username);
+
     /**
      * 登录后返回token 有验证码模式
      * @param username

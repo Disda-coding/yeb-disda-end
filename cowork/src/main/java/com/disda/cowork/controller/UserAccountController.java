@@ -2,16 +2,20 @@ package com.disda.cowork.controller;
 
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.error.EmBusinessError;
-import com.disda.cowork.po.Admin;
+import com.disda.cowork.service.IAdminService;
+import com.disda.cowork.service.IVerificationCodeService;
 import com.disda.cowork.vo.AdminRegisterParam;
 import com.disda.cowork.vo.RespBean;
-import com.disda.cowork.service.ISendMailService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @program: cowork-back
@@ -24,7 +28,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserAccountController {
 
     @Autowired
-    ISendMailService sendMailService;
+    @Qualifier("mail")
+    IVerificationCodeService sendMailService;
+    @Autowired
+    IAdminService adminService;
+
+    @GetMapping("/register")
+    public RespBean Register(@RequestBody Map<String,String> username) throws BusinessException {
+        System.out.println(username.get("username"));
+        if(adminService.getExistUserByUserName(username.get("username"))){
+            throw new BusinessException(EmBusinessError.USERNAME_EXIST);
+        }
+        return RespBean.success("用户名可用！");
+    }
+
+
     @PostMapping("/register")
     public RespBean Register(@Validated @RequestBody AdminRegisterParam adminRegisterParam) throws BusinessException {
         // 验证用户信息是否合法(使用Validated),验证用户名是否存在（默认允许一个邮箱多个用户）

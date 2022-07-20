@@ -112,6 +112,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     }
 
     @Override
+    public Boolean getExistUserByUserName(String username) {
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username))!=null;
+    }
+
+    @Override
     public RespBean login(String username, String password, String code, HttpServletRequest request) throws Exception {
         String captcha = (String) request.getSession().getAttribute("captcha");
 

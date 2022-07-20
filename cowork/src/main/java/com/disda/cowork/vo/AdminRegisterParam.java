@@ -32,7 +32,7 @@ public class AdminRegisterParam {
     private String name;
 
     @NotEmpty(message = "用户名不能为空")
-    @Size(min=3, max=20, message="用户名长度只能在3-20之间")
+    @Size(min=3, max=15, message="用户名长度只能在3-15之间")
     private String username;
 
     private Integer RegisterCode;
