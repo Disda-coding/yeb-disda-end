@@ -95,8 +95,7 @@ mybatis-plus:
 logging:
   level:
     com.disda.cowork.mapper: debug
-    de:
-      codecentric: error
+    org.springframework.boot.actuate: error
 
 
 

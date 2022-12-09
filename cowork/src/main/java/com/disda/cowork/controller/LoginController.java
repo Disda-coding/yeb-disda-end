@@ -27,7 +27,7 @@ import java.security.Principal;
  * @create: 2022-01-24 10:10
  */
 @RestController
-@Api(tags = "LoginController")
+@Api(tags = "登录控制器")
 @Log
 public class LoginController {
 

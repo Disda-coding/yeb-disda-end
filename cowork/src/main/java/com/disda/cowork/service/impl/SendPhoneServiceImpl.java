@@ -19,8 +19,14 @@ public class SendPhoneServiceImpl implements IVerificationCodeService {
         return false;
     }
 
+
     @Override
-    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request) {
+    public boolean verifyCode(String mailAddr, String code, String prefix) throws BusinessException {
+        return false;
+    }
+
+    @Override
+    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request, String prefix) throws BusinessException {
         return null;
     }
 }

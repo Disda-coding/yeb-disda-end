@@ -7,6 +7,7 @@ import com.disda.cowork.utils.IpUtils;
 import com.disda.cowork.utils.RndUtils;
 import com.disda.cowork.vo.RespBean;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
@@ -88,19 +89,39 @@ public class SendMailServiceImpl implements IVerificationCodeService {
             throw new BusinessException(EmBusinessError.MAIL_NOT_EXIST);
         }
     }
+
+    @Override
+    public boolean verifyCode(String mailAddr, String code,String prefix) throws BusinessException {
+        if(Boolean.FALSE.equals(redisTemplate.hasKey(prefix + mailAddr))){
+            throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
+        }
+        if(!StringUtils.equals(code, (String) redisTemplate.opsForValue().get(prefix + mailAddr)))
+          return false;
+        return true;
+    }
+
     //地方有问题
     @Override
-    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request) throws BusinessException {
+    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request,String prefix) throws BusinessException {
+
         if(checkAddr(mailAddr) == false){
             log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端检查邮箱格式被绕过");
             return RespBean.error("非法提交邮箱地址");
         }
-        if (Boolean.TRUE.equals(redisTemplate.hasKey("verificationCode_" + mailAddr))) {
+        //如果是BOOLEAN返回值，那需要用这个方法，因为可能存在null
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(prefix+"flag_" + mailAddr))) {
             log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端限制多次请求被绕过");
             return RespBean.error("非法重复请求邮箱验证码");
         }
         String verificationCode = RndUtils.generatorCode();
-        redisTemplate.opsForValue().set("verificationCode_" + mailAddr,verificationCode, 1, TimeUnit.MINUTES);
+        // 生成验证码
+        redisTemplate.opsForValue().set(prefix + mailAddr,verificationCode, 5, TimeUnit.MINUTES);
+        // 设置flag判断是否绕过
+        redisTemplate.opsForValue().set(prefix+"flag"+mailAddr,1,1,TimeUnit.MINUTES);
+        if(username == null){
+            //查询一下邮箱对应的username，找回账户逻辑
+            username = "helloworld";
+        }
         sendVerificationCode(mailAddr,username,verificationCode);
         return RespBean.success("已发送邮箱，请及时查看！");
     }

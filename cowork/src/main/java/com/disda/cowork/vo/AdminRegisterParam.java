@@ -26,18 +26,15 @@ public class AdminRegisterParam {
     @NotEmpty(message = "邮箱名不能为空")
     @javax.validation.constraints.Email(message = "邮箱格式不正确")
     private String Email;
-
-
 //    @NotEmpty(message = "姓名不能为空")
     private String name;
-
     @NotEmpty(message = "用户名不能为空")
     @Size(min=3, max=15, message="用户名长度只能在3-15之间")
     private String username;
     @NotEmpty(message = "密码不能为空")
     private String password;
     @NotEmpty(message = "验证码不能为空")
-    private Integer RegisterCode;
+    private String RegisterCode;
 
 
 }

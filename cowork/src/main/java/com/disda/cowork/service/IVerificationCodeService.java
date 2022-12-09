@@ -6,6 +6,6 @@ import com.disda.cowork.vo.RespBean;
 import javax.servlet.http.HttpServletRequest;
 
 public interface IVerificationCodeService {
-//    public boolean checkAddr(String addr);
-    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request) throws BusinessException;
+    public boolean verifyCode(String mailAddr,String code,String prefix) throws BusinessException;
+    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request,String prefix) throws BusinessException;
 }
