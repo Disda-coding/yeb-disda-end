@@ -20,4 +20,6 @@ public interface DepartmentMapper extends BaseMapper<Department> {
     void addDepartment(Department dep);
 
     void insertAndGetId(Department dep);
+
+    void deleteDep(Department dep);
 }

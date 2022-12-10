@@ -3,6 +3,7 @@ package com.disda.cowork.controller;
 import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Department;
 import com.disda.cowork.service.IDepartmentService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class DepartmentController {
     @PostMapping("/")
     public RespBean addDepartment(@RequestBody Department dep){
         return departmentService.addDepartment(dep);
+    }
+
+    @ApiOperation(value = "删除部门")
+    @DeleteMapping("/{id}")
+    public RespBean deleteDepartment(@PathVariable Integer id){
+        return departmentService.deleteDepartment(id);
     }
 
 

@@ -23,6 +23,11 @@
         insert into t_department(name,parentId,enabled,isParent) values (#{name},#{parentId},#{enabled},#{isParent})
     </insert>
 
+    <!--  使用存储过程删除  -->
+    <select id="deleteDep" statementType="CALLABLE">
+        call deleteDep(#{id,mode=IN,jdbcType=INTEGER},
+                        #{result,mode=OUT,jdbcType=INTEGER})
+    </select>
 
 
     <resultMap id="DepartmentWithChildren" type="com.disda.cowork.po.Department" extends="BaseResultMap">

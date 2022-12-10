@@ -1,5 +1,6 @@
 package com.disda.cowork.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.mapper.DepartmentMapper;
@@ -47,11 +48,33 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Integer id = dep.getId();
         //获取父节点信息
         log.info(String.valueOf(dep.getParentId()));
-        Department fatherDepartment = departmentMapper.selectOne(new QueryWrapper<Department>().eq("id",dep.getParentId()));
+        Department fatherDepartment = departmentMapper.selectOne(new LambdaQueryWrapper<Department>().eq(Department::getId,dep.getParentId()));
         dep.setDepPath(fatherDepartment.getDepPath()+"."+id);
         fatherDepartment.setIsParent(true);
         departmentMapper.updateById(fatherDepartment);
         departmentMapper.updateById(dep);
         return RespBean.success("成功添加部门");
+    }
+
+    @Override
+    public RespBean deleteDepartment(Integer id) {
+        // 使用存储过程
+//        Department dep = new Department();
+//        dep.setId(id);
+//        departmentMapper.deleteDep(dep);
+//        if(dep.getResult() == -2){
+//            return RespBean.error("该部门下还有子部门，删除失败！");
+//        }else if(dep.getResult() == -1){
+//            return RespBean.error("该部门下还有员工，删除失败！");
+//        }else if (dep.getResult() == 1){
+//            return RespBean.succuss("删除成功！");
+//        }else{
+//            return RespBean.error("删除失败！");
+//        }
+
+        Integer resCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getId,id).eq(Department::getIsParent,false));
+        if (resCount == 0) return RespBean.error("该部门下还有子部门，删除失败！");
+
+        return null;
     }
 }
