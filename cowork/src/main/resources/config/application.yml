@@ -1,8 +1,15 @@
 # Properties的基于yml的配置
 spring:
+#  使用dev的配置
   profiles:
     active: dev
-# 监控服务器url
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+
+  # 监控服务器url
   boot:
     admin:
       client:

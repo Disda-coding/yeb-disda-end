@@ -1,5 +1,6 @@
 package com.disda.cowork.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.disda.cowork.po.Department;
 
@@ -22,4 +23,5 @@ public interface DepartmentMapper extends BaseMapper<Department> {
     void insertAndGetId(Department dep);
 
     void deleteDep(Department dep);
+
 }
