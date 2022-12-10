@@ -4,23 +4,19 @@ import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.service.IAdminService;
 import com.disda.cowork.service.IVerificationCodeService;
-import com.disda.cowork.vo.AdminRegisterParam;
-import com.disda.cowork.vo.AdminRetrieveParam;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.AdminRegisterParam;
+import com.disda.cowork.dto.AdminRetrieveParam;
+import com.disda.cowork.dto.RespBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  * @program: cowork-back

@@ -2,7 +2,7 @@ package com.disda.cowork.controller;
 
 
 import com.disda.cowork.po.Position;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.service.IPositionService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

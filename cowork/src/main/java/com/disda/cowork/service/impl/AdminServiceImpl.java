@@ -10,7 +10,7 @@ import com.disda.cowork.mapper.AdminRoleMapper;
 import com.disda.cowork.mapper.RoleMapper;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.po.AdminRole;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IAdminService;
 import com.disda.cowork.utils.AdminUtils;

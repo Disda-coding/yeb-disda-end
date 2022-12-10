@@ -1,8 +1,13 @@
 package com.disda.cowork.controller;
 
+import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.po.Department;
+import com.disda.cowork.service.IDepartmentService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @program: cowork-back
@@ -13,6 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/system/basic/department")
 public class DepartmentController {
-//    @Autowired
-//    private IDepart
+    @Autowired
+    private IDepartmentService departmentService;
+
+    @ApiOperation(value = "获取所有部门")
+    @GetMapping("/")
+    public List<Department> getAllDepartments(){
+        return departmentService.getAllDepartments();
+    }
+
+    @ApiOperation(value = "添加部门")
+    @PostMapping("/")
+    public RespBean addDepartment(@RequestBody Department dep){
+        return departmentService.addDepartment(dep);
+    }
+
+
 }

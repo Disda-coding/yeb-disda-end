@@ -4,7 +4,7 @@ package com.disda.cowork.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.disda.cowork.po.Menu;
 import com.disda.cowork.po.MenuRole;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IMenuRoleService;
 import com.disda.cowork.service.IMenuService;

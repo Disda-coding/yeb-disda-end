@@ -106,7 +106,7 @@
         ORDER BY m.id
     </select>
 
-    <!--查询所有菜单-->
+    <!--查询所有菜单,层级固定死因此可以这样写 -->
     <select id="getAllMenus" resultMap="MenusWithChildren">
         SELECT
             m1.id AS id1,

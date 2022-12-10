@@ -2,12 +2,10 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.mapper.AdminMapper;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.service.IVerificationCodeService;
-import com.disda.cowork.utils.IpUtils;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.service.ISaltService;
 import com.disda.cowork.utils.SaltUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 

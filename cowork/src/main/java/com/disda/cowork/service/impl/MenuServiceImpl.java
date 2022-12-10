@@ -6,6 +6,7 @@ import com.disda.cowork.po.Admin;
 import com.disda.cowork.po.Menu;
 import com.disda.cowork.service.IMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.core.context.SecurityContextHolder;

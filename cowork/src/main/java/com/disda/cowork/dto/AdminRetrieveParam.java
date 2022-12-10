@@ -1,4 +1,4 @@
-package com.disda.cowork.vo;
+package com.disda.cowork.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

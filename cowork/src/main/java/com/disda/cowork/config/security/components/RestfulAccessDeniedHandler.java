@@ -1,7 +1,7 @@
 package com.disda.cowork.config.security.components;
 
 
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

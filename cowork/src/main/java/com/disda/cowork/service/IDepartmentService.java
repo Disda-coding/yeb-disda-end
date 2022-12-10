@@ -2,6 +2,9 @@ package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.disda.cowork.po.Department;
+import com.disda.cowork.dto.RespBean;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.disda.cowork.po.Department;
  */
 public interface IDepartmentService extends IService<Department> {
 
+    List<Department> getAllDepartments();
+
+    RespBean addDepartment(Department dep);
 }

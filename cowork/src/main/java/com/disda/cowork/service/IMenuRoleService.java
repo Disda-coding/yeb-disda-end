@@ -2,7 +2,7 @@ package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.disda.cowork.po.MenuRole;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 
 /**
  * <p>

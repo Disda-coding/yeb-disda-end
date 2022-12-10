@@ -1,4 +1,4 @@
-package com.disda.cowork.vo;/**
+package com.disda.cowork.dto;/**
  * @Author disda
  * @Date 2022/1/24
  */

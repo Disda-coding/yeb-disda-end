@@ -5,7 +5,7 @@ import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.service.IVerificationCodeService;
 import com.disda.cowork.utils.IpUtils;
 import com.disda.cowork.utils.RndUtils;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.RespBean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

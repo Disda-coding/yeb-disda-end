@@ -4,8 +4,8 @@ package com.disda.cowork.controller;/**
  */
 
 import com.disda.cowork.po.Admin;
-import com.disda.cowork.vo.AdminLoginParam;
-import com.disda.cowork.vo.RespBean;
+import com.disda.cowork.dto.AdminLoginParam;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.service.IAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
