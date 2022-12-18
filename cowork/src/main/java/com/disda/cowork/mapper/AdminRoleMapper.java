@@ -2,6 +2,7 @@ package com.disda.cowork.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.disda.cowork.po.AdminRole;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -14,5 +15,12 @@ import com.disda.cowork.po.AdminRole;
  */
 public interface AdminRoleMapper extends BaseMapper<AdminRole> {
 
-    Integer addAdminRole(Integer adminId, Integer[] rids);
+    /**
+     * 更新操作员角色
+     * @param adminId
+     * @param rids
+     * @return
+     */
+    Integer updateAdminRole(@Param("adminId") Integer adminId, @Param("rids") Integer[] rids);
+
 }

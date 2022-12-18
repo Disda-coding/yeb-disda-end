@@ -13,6 +13,7 @@ import com.disda.cowork.dto.RespBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
+    @Transactional
     public RespBean addDepartment(Department dep) {
         //通过存储过程实现
 //        dep.setEnabled(true);
@@ -62,6 +64,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
+    @Transactional
     public RespBean deleteDepartment(Integer id) {
         // 使用存储过程
 //        Department dep = new Department();

@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 /**
  * @program: cowork-back
- * @description:
+ * @description: 注册发送邮件
  * @author: Disda
  * @create: 2022-07-16 15:06
  */

@@ -1,14 +1,13 @@
 package com.disda.cowork.po;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,12 +17,13 @@ import java.time.LocalDateTime;
  * 
  * </p>
  *
- * @author disda
- * @since 2022-01-28
+ * @author sheng
+ * @since 2021-10-12
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
+@NoArgsConstructor
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = false,of = "name")
 @TableName("t_joblevel")
 @ApiModel(value="Joblevel对象", description="")
 public class Joblevel implements Serializable {
@@ -35,6 +35,8 @@ public class Joblevel implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "职称名称")
+    @Excel(name = "职称名称")
+    @NonNull
     private String name;
 
     @ApiModelProperty(value = "职称等级")

@@ -5,6 +5,7 @@ import com.disda.cowork.mapper.MenuMapper;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.po.Menu;
 import com.disda.cowork.service.IMenuService;
+import com.disda.cowork.utils.AdminUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -38,7 +39,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
      */
     @Override
     public List<Menu> getMenusByAdminId() {
-        Integer adminId = ((Admin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        Integer adminId = AdminUtils.getCurrentAdmin().getId();
         ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
         //从redis中获取菜单数据
         List<Menu> menus = (List<Menu>)valueOperations.get("menu_" + adminId);

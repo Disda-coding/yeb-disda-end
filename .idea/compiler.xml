@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="mybatis-generator" />
         <module name="admin" />
+        <module name="cowork-mail" />
         <module name="cowork" />
       </profile>
     </annotationProcessing>
@@ -16,6 +17,7 @@
       <module name="admin" target="1.8" />
       <module name="cowork" target="1.8" />
       <module name="cowork-back" target="1.8" />
+      <module name="cowork-mail" target="1.8" />
       <module name="mybatis-generator" target="1.8" />
     </bytecodeTargetLevel>
   </component>
@@ -23,6 +25,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cowork" options="-parameters" />
       <module name="cowork-back" options="-parameters" />
+      <module name="cowork-mail" options="-parameters" />
       <module name="mybatis-generator" options="-parameters" />
     </option>
   </component>

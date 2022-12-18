@@ -1,38 +1,40 @@
 package com.disda.cowork.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.disda.cowork.config.CustomAuthorityDeserializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * <p>
- * 
+ *
  * </p>
  *
- * @author disda
- * @since 2022-01-24
+ * @author sheng
+ * @since 2021-10-12
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("t_admin")
-@ApiModel(value="Admin对象", description="用于实现UserDetails")
+@ApiModel(value="Admin对象", description="")
 public class Admin implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
@@ -54,6 +56,11 @@ public class Admin implements Serializable, UserDetails {
     private String address;
 
     @ApiModelProperty(value = "是否启用")
+    @Getter(AccessLevel.NONE)
+    /**
+     * @Data 自动生成get set ，同时实现了UserDetails的isEnabled(),
+     * mybatis映射时不知道该映射那个
+     */
     private Boolean enabled;
 
     @ApiModelProperty(value = "用户名")

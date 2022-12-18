@@ -5,6 +5,7 @@
     <modules>
         <module>cowork</module>
         <module>mybatis-generator</module>
+        <module>cowork-mail</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
