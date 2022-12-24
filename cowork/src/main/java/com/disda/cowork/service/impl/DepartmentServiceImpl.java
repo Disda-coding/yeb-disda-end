@@ -60,7 +60,7 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         fatherDepartment.setIsParent(true);
         departmentMapper.updateById(fatherDepartment);
         departmentMapper.updateById(dep);
-        return RespBean.success("成功添加部门");
+        return RespBean.success("成功添加部门",departmentMapper.selectById(id));
     }
 
     @Override

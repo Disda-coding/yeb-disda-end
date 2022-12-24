@@ -8,4 +8,6 @@
 添加了
 # todolist
 - 统一接口
+- Security用户权限可以走缓存（提高并发量）
+- 修复bug
 - vhr

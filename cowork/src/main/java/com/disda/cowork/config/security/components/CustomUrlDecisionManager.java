@@ -1,5 +1,6 @@
 package com.disda.cowork.config.security.components;
 
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;

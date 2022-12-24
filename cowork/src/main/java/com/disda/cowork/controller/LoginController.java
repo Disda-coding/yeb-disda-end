@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +67,7 @@ public class LoginController {
     @ApiOperation(value = "退出登录")
     @PostMapping("/logout")
     public RespBean logout(HttpServletRequest request, HttpServletResponse response){
-
+//        SecurityContextHolder.clearContext(); 无状态没必要加
         return RespBean.success("注销成功！");
     }
 

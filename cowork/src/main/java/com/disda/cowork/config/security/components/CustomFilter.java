@@ -27,6 +27,13 @@ public class CustomFilter implements FilterInvocationSecurityMetadataSource {
 
     AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    /**
+     * 根据request请求获取访问资源所需权限
+     * 用户GrantedAuthority与ConfigAttribute一对比就知道用户有没有权限访问该api了
+     * @param o
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         //获取请求的url
