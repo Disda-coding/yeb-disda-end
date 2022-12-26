@@ -2,7 +2,9 @@ package com.disda.cowork;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * @program: cowork-back
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @create: 2022-07-20 21:43
  */
 @SpringBootTest
+@RunWith(SpringRunner.class)
 public class test {
     @Test
     public void test(){
