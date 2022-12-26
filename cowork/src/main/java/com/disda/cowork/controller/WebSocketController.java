@@ -2,6 +2,7 @@ package com.disda.cowork.controller;
 
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.po.ChatMsg;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  * webSocket
  */
 @Controller
+@Slf4j
 public class WebSocketController {
 
     @Autowired
@@ -33,7 +35,7 @@ public class WebSocketController {
         chatMsg.setFrom(admin.getUsername());
         chatMsg.setFromNickName(admin.getName());
         chatMsg.setDate(LocalDateTime.now());
-
+        log.error("msg:"+chatMsg);
         simpMessagingTemplate.convertAndSendToUser(chatMsg.getTo(),"/queue/chat",chatMsg);
     }
 
