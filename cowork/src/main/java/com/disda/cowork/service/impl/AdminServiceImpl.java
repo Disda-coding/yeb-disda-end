@@ -52,8 +52,6 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Autowired
     private AdminMapper adminMapper;
     @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -75,7 +73,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public RespBean login(String username, String password, HttpServletRequest request) throws Exception {
         //根据用户名从数据库中获取用户信息
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = getAdminByUserName(username);
         //如果userDetails为空 或 密码不匹配
         password = AesUtils.decrypt(password, (String) redisTemplate.opsForValue().get("salt_" + username));
 //        log.info("pswd"+password);

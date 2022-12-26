@@ -1,6 +1,5 @@
 package com.disda.cowork.config;
 
-
 import com.disda.cowork.config.security.components.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,7 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 /**
- * webSocket配置类
+ * webSocket配置类，配置了导致junit循环依赖（不知道为什么
  */
 @Configuration
 @EnableWebSocketMessageBroker
@@ -50,7 +49,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
          * 2.setAllowedOrigins("*")：允许跨域
          * 3.withSockJS()：支持socketJS访问
          */
-        registry.addEndpoint("/ws/ep").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/wc/ep").setAllowedOrigins("*").withSockJS();
     }
 
     /**

@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @author: Disda
  * @create: 2022-07-20 21:43
  */
-@SpringBootTest(classes = CoworkApplication.class)
-
+@SpringBootTest()
 public class test {
     @Test
     public void test(){
