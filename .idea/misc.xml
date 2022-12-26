@@ -11,6 +11,11 @@
         <option value="$PROJECT_DIR$/admin/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cowork-mail/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="PWA">
     <option name="wasEnabledAtLeastOnce" value="true" />

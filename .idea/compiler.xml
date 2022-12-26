@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="mybatis-generator" />
         <module name="admin" />
-        <module name="cowork-mail" />
         <module name="cowork" />
       </profile>
     </annotationProcessing>
