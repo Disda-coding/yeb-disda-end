@@ -86,4 +86,5 @@ public interface IAdminService extends IService<Admin> {
     RespBean updateAdminUserFace(String url, Integer adminId, Authentication authentication);
 
 
+    RespBean insert(Admin admin);
 }

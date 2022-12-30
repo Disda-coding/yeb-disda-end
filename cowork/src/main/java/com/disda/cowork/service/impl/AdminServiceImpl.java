@@ -23,7 +23,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -46,6 +45,11 @@ import java.util.Map;
 @Service
 @Slf4j
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements IAdminService {
+    // 注册用户的时候提供默认密码选项
+    @Value("${default.password}")
+    String defaultPassword;
+    @Value("${default.userFace}")
+    String userFace;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -73,7 +77,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public RespBean login(String username, String password, HttpServletRequest request) throws Exception {
         //根据用户名从数据库中获取用户信息
-        UserDetails userDetails = getAdminByUserName(username);
+        // 因为我们重写了userDetailService中的loaduserbyusername的方法，如果直接引用会造成循环依赖问题
+        Admin admin = getAdminByUserName(username);
+        admin.setRoles(getRoles(admin.getId()));
+        UserDetails userDetails = admin;
         //如果userDetails为空 或 密码不匹配
         password = AesUtils.decrypt(password, (String) redisTemplate.opsForValue().get("salt_" + username));
 //        log.info("pswd"+password);
@@ -179,11 +186,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Override
     public RespBean updateAdminPassword(String oldPass, String pass, Integer adminId) {
         Admin admin = adminMapper.selectById(adminId);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         //比较输入的旧密码是否正确
-        if (encoder.matches(oldPass, admin.getPassword())) {
+        if (passwordEncoder.matches(oldPass, admin.getPassword())) {
             //设置新密码
-            admin.setPassword(encoder.encode(pass));
+            admin.setPassword(passwordEncoder.encode(pass));
             int result = adminMapper.updateById(admin);
             if (1 == result) {
                 return RespBean.success("更新成功");
@@ -214,6 +221,21 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return RespBean.success("更新成功", url);
         }
         return RespBean.error("更新失败");
+    }
+
+    @Override
+    public RespBean insert(Admin admin) {
+        if (admin.getPassword() == null || admin.getPassword().trim().length() == 0){
+            admin.setPassword(passwordEncoder.encode(defaultPassword));
+        }
+        if (admin.getUserFace()==null || admin.getUserFace().trim().length() == 0){
+
+        }
+        int result = adminMapper.insert(admin);
+        if (1 == result) {//更新成功
+            return RespBean.success("成功新建管理员!");
+        }
+        return RespBean.error("新建管理员失败!");
     }
 
 //    private UserModel convertFromDataObject(Admin userDO, AdminInfo userPasswordDO) {

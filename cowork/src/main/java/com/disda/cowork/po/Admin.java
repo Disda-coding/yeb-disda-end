@@ -15,10 +15,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +30,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @since 2021-10-12
  */
 @Data
+@ToString
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @TableName("t_admin")
 @ApiModel(value="Admin对象", description="")

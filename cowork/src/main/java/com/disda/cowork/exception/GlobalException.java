@@ -4,6 +4,9 @@ import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.dto.RespBean;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -29,9 +32,10 @@ import java.util.stream.Collectors;
  * 全局异常处理
  */
 @RestControllerAdvice
+@Slf4j
 public class GlobalException {
 
-    @ExceptionHandler(SQLException.class)
+    @ExceptionHandler({SQLException.class, DataIntegrityViolationException.class, BadSqlGrammarException.class})
     public RespBean mySqlException(SQLException e){
         if (e instanceof SQLIntegrityConstraintViolationException) {
             return RespBean.error("该数据有关联数据，操作失败");
@@ -55,6 +59,7 @@ public class GlobalException {
         List<String> collect = fieldErrors.stream()
                 .map(o -> o.getDefaultMessage())
                 .collect(Collectors.toList());
+        log.error(String.valueOf(collect));
         return new RespBean(EmBusinessError.PARAMETER_VALIDATION_ERROR.getErrCode(),EmBusinessError.PARAMETER_VALIDATION_ERROR.getErrMsg(),collect);
     }
     // <3> 处理单个参数校验失败抛出的异常
@@ -64,16 +69,12 @@ public class GlobalException {
         List<String> collect = constraintViolations.stream()
                 .map(o -> o.getMessage())
                 .collect(Collectors.toList());
+        log.error(String.valueOf(collect));
         return new RespBean(EmBusinessError.PARAMETER_VALIDATION_ERROR.getErrCode(),EmBusinessError.PARAMETER_VALIDATION_ERROR.getErrMsg(),collect);
     }
 
 
-
-
-
-
     @ExceptionHandler(Exception.class)
-    @ResponseBody
     public Object handlerException(HttpServletRequest request, HttpServletResponse response, Exception ex){
         Map<String,Object> responseData=new HashMap();
         if(ex instanceof BusinessException){

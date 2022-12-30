@@ -34,7 +34,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
     private RedisTemplate redisTemplate;
 
     /**
-     * 通过用户id查询菜单列表
+     * 通过用户id查询菜单列表,通过Redis缓存
      * @return
      */
     @Override

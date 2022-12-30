@@ -16,8 +16,8 @@
 
     <!-- 根据角色id 更新角色菜单 -->
     <insert id="insertRecord">
-        insert into t_menu_role(mid,rid) values
-        <foreach collection="mids" index="mid" separator=",">
+        insert into t_menu_role (mid,rid) values
+        <foreach collection="mids" separator="," item="mid">
             (#{mid},#{rid})
         </foreach>
     </insert>

@@ -5,6 +5,10 @@ server:
 aes:
   iv: 412ADDSSFA342442
 
+default:
+  password: 123
+  userFace: https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01c13f5b56bd8ba8012036be3d28b7.png%402o.png&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674715205&t=b6aebcc4bf92ce1c79333010d4444e2d
+
 spring:
   # 设置邮箱
   mail:

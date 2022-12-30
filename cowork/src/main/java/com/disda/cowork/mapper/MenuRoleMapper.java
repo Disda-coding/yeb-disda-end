@@ -2,6 +2,7 @@ package com.disda.cowork.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.disda.cowork.po.MenuRole;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,5 +14,11 @@ import com.disda.cowork.po.MenuRole;
  */
 public interface MenuRoleMapper extends BaseMapper<MenuRole> {
 
-    Integer insertRecord(Integer rid, Integer[] mids);
+    /**
+     * 更新角色菜单
+     * 根据角色id更新角色菜单
+     * @param rid
+     * @param mids
+     */
+    Integer insertRecord(@Param("rid") Integer rid, @Param("mids") Integer[] mids);
 }

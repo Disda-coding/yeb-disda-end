@@ -32,6 +32,10 @@ public class RespBean {
         return new RespBean(200,message,null);
     }
 
+    public static RespBean success(){
+        return success(null);
+    }
+
     public static RespBean returnObj(Object o){
         return new RespBean(200,"",o);
     }
