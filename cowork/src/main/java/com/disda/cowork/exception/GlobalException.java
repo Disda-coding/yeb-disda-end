@@ -76,7 +76,7 @@ public class GlobalException {
 
     @ExceptionHandler(Exception.class)
     public Object handlerException(HttpServletRequest request, HttpServletResponse response, Exception ex){
-        Map<String,Object> responseData=new HashMap();
+        Map<String,Object> responseData=new HashMap(2);
         if(ex instanceof BusinessException){
             BusinessException businessException=(BusinessException)ex;
             responseData.put("code", businessException.getErrCode());

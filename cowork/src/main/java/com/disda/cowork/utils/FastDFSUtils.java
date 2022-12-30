@@ -13,6 +13,7 @@ import java.io.InputStream;
 /**
  * fastDFS工具类
  */
+@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 public class FastDFSUtils {
     //日志
     private static Logger logger = LoggerFactory.getLogger(FastDFSUtils.class);

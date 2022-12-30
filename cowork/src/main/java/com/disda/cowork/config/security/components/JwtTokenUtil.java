@@ -36,7 +36,7 @@ public class JwtTokenUtil {
      * @return
      */
     public String generateToken(UserDetails userDetails){
-        Map<String, Object> claims = new HashMap<>();
+        Map<String, Object> claims = new HashMap<>(2);
         // 荷载放入用户名
         claims.put(CLAIM_KEY_USERNAME,userDetails.getUsername());
         // 获取当前时间

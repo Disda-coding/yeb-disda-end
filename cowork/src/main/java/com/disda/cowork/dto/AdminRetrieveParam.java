@@ -19,7 +19,7 @@ import javax.validation.constraints.NotEmpty;
 public class AdminRetrieveParam {
     @NotEmpty(message = "邮箱名不能为空")
     @javax.validation.constraints.Email(message = "邮箱格式不正确")
-    private String Email;
+    private String email;
 
     @ApiModelProperty(value = "密码",required = true)
     private String password;

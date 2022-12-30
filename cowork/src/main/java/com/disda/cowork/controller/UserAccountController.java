@@ -61,8 +61,9 @@ public class UserAccountController {
     public RespBean Register(@Validated @RequestBody AdminRegisterParam adminRegisterParam) throws BusinessException {
         // 验证用户信息是否合法(使用Validated),验证用户名是否存在（默认允许一个邮箱多个用户） @Validated做了
         // 验证邮箱验证码
-        if(sendMailService.verifyCode(adminRegisterParam.getEmail(),adminRegisterParam.getRegisterCode(),"verificationCode_"))
+        if(sendMailService.verifyCode(adminRegisterParam.getEmail(),adminRegisterParam.getRegisterCode(),"verificationCode_")) {
             return RespBean.error("验证码不正确！");
+        }
 
         // 成功则写入数据库（先放着，后期可能实现会改变）
         return RespBean.success("注册成功！");
@@ -79,8 +80,9 @@ public class UserAccountController {
     @PostMapping("/resetAccount")
     public RespBean resetAccount(@Validated @RequestBody AdminRetrieveParam adminRetrieveParam) throws BusinessException {
 //        System.out.println(adminRetrieveParam);
-        if(sendMailService.verifyCode(adminRetrieveParam.getEmail(),adminRetrieveParam.getCode(),"retrieveCode_"))
+        if(sendMailService.verifyCode(adminRetrieveParam.getEmail(),adminRetrieveParam.getCode(),"retrieveCode_")) {
             return RespBean.error("验证码不正确！");
+        }
         // 成功则写入数据库（先放着，后期可能实现会改变）
         return RespBean.success("找回成功！");
     }

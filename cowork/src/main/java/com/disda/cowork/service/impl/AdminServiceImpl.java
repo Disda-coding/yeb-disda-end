@@ -102,7 +102,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         //生成token
         String token = jwtTokenUtil.generateToken(userDetails);
         //封装返回信息
-        Map<String, String> tokenMap = new HashMap<>();
+        Map<String, String> tokenMap = new HashMap<>(2);
         //将token放入返回信息中
         tokenMap.put("token", token);
         //将token头放入返回信息中

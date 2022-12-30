@@ -95,8 +95,9 @@ public class SendMailServiceImpl implements IVerificationCodeService {
         if(Boolean.FALSE.equals(redisTemplate.hasKey(prefix + mailAddr))){
             throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
         }
-        if(!StringUtils.equals(code, (String) redisTemplate.opsForValue().get(prefix + mailAddr)))
-          return false;
+        if(!StringUtils.equals(code, (String) redisTemplate.opsForValue().get(prefix + mailAddr))) {
+            return false;
+        }
         return true;
     }
 

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class SaltService implements ISaltService {
+public class SaltServiceImpl implements ISaltService {
 
     @Autowired
     AdminMapper adminMapper;
@@ -42,9 +42,10 @@ public class SaltService implements ISaltService {
         userQueryWrapper.eq("username", username);
         Admin admin = adminMapper.selectOne(userQueryWrapper);
         //如果userDetails为空 或 密码不匹配
-        HashMap<String, String> res = new HashMap<>();
-        if (admin == null)
+        HashMap<String, String> res = new HashMap<>(1);
+        if (admin == null) {
             return RespBean.error("用户名不存在！");
+        }
         else {
             if (Boolean.TRUE.equals(redisTemplate.hasKey("salt_" + username))) {
                 res.put("salt", (String) redisTemplate.opsForValue().get("salt_" + username));

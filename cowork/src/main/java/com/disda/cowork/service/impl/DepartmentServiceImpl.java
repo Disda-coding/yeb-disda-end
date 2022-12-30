@@ -1,15 +1,14 @@
 package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.mapper.DepartmentMapper;
 import com.disda.cowork.mapper.EmployeeMapper;
 import com.disda.cowork.po.Department;
 import com.disda.cowork.po.Employee;
 import com.disda.cowork.service.IDepartmentService;
-import com.disda.cowork.dto.RespBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author disda
@@ -33,8 +32,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     private DepartmentMapper departmentMapper;
     @Autowired
     private EmployeeMapper employeeMapper;
-
-    public List<Department> getAllDepartments(){
+    @Override
+    public List<Department> getAllDepartments() {
         return departmentMapper.getAllDepartments(-1);
     }
 
@@ -55,12 +54,12 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         Integer id = dep.getId();
         //获取父节点信息
         log.info(String.valueOf(dep.getParentId()));
-        Department fatherDepartment = departmentMapper.selectOne(new LambdaQueryWrapper<Department>().eq(Department::getId,dep.getParentId()));
-        dep.setDepPath(fatherDepartment.getDepPath()+"."+id);
+        Department fatherDepartment = departmentMapper.selectOne(new LambdaQueryWrapper<Department>().eq(Department::getId, dep.getParentId()));
+        dep.setDepPath(fatherDepartment.getDepPath() + "." + id);
         fatherDepartment.setIsParent(true);
         departmentMapper.updateById(fatherDepartment);
         departmentMapper.updateById(dep);
-        return RespBean.success("成功添加部门",departmentMapper.selectById(id));
+        return RespBean.success("成功添加部门", departmentMapper.selectById(id));
     }
 
     @Override
@@ -80,18 +79,23 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
 //            return RespBean.error("删除失败！");
 //        }
         // 如果删除的节点有子节点
-        Integer resCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getId,id).eq(Department::getIsParent,false));
-        if (resCount == 0) return RespBean.error("该部门下还有子部门，删除失败！");
+        Integer resCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getId, id).eq(Department::getIsParent, false));
+        if (resCount == 0) {
+            return RespBean.error("该部门下还有子部门，删除失败！");
+        }
         // 如果要删除的节点关联了职工表
-        Integer empCount = employeeMapper.selectCount(new LambdaQueryWrapper<Employee>().eq(Employee::getDepartmentId,id));
-        if(empCount>0) return RespBean.error("该部门下还有员工，删除失败！");
+        Integer empCount = employeeMapper.selectCount(new LambdaQueryWrapper<Employee>().eq(Employee::getDepartmentId, id));
+        if (empCount > 0) {
+            return RespBean.error("该部门下还有员工，删除失败！");
+        }
         //根据id查找
         Department dep = departmentMapper.selectById(id);
         Integer parentId = dep.getParentId();
-        departmentMapper.delete(new LambdaQueryWrapper<Department>().eq(Department::getId,id).eq(Department::getIsParent,false));
-        Integer pCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getParentId,parentId));
-        if (pCount == 0)
-            departmentMapper.update(null,new LambdaUpdateWrapper<Department>().eq(Department::getId,parentId).set(Department::getIsParent,false));
+        departmentMapper.delete(new LambdaQueryWrapper<Department>().eq(Department::getId, id).eq(Department::getIsParent, false));
+        Integer pCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getParentId, parentId));
+        if (pCount == 0) {
+            departmentMapper.update(null, new LambdaUpdateWrapper<Department>().eq(Department::getId, parentId).set(Department::getIsParent, false));
+        }
         return RespBean.success("删除成功！");
     }
 }
