@@ -54,7 +54,7 @@ public class SaltServiceImpl implements ISaltService {
                 redisTemplate.opsForValue().set("salt_" + username, salt, 5, TimeUnit.MINUTES);
                 res.put("salt", salt);
             }
-            return RespBean.returnObj(res);
+            return RespBean.success(res);
         }
     }
 

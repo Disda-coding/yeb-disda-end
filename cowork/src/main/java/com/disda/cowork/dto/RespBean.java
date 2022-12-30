@@ -21,7 +21,7 @@ import java.util.Map;
 public class RespBean {
     private long code;
     private String message;
-    private Object obj;
+    private Object data;
 
     /**
      * 成功返回结果
@@ -36,18 +36,18 @@ public class RespBean {
         return success(null);
     }
 
-    public static RespBean returnObj(Object o){
+    public static RespBean success(Object o){
         return new RespBean(200,"",o);
     }
 
     /**
      * 成功返回结果
      * @param message
-     * @param obj
+     * @param data
      * @return
      */
-    public static RespBean success(String message,Object obj){
-        return new RespBean(200,message,obj);
+    public static RespBean success(String message,Object data){
+        return new RespBean(200,message,data);
     }
 
     /**
@@ -62,11 +62,11 @@ public class RespBean {
     /**
      * 失败返回结果
      * @param message
-     * @param obj
+     * @param data
      * @return
      */
-    public static RespBean error(String message,Object obj){
-        return new RespBean(500,message,obj);
+    public static RespBean error(String message,Object data){
+        return new RespBean(500,message,data);
     }
 
     public static RespBean error(Map<String,Object> respMap){
