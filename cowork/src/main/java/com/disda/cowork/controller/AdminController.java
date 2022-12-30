@@ -69,7 +69,7 @@ public class AdminController {
     @PostMapping("/")
     public RespBean addAdmin(@RequestBody @Valid AdminLogonParam adminLogonParam){
         Admin admin = AdminParamConverter.INSTANCE.toConvertPO(adminLogonParam);
-        log.info("converting admin Object"+admin);
+        log.debug("converting admin Object"+admin);
         return adminService.insert(admin);
     }
 
