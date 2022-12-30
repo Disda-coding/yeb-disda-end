@@ -19,10 +19,10 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RespBean {
+public class RespBean<T> {
     private long code;
     private String message;
-    private Object data;
+    private T data;
 
     /**
      * 成功返回结果
@@ -33,11 +33,15 @@ public class RespBean {
         return new RespBean(200,message,null);
     }
 
+    /**
+     * 前端会拦截，因此我们返回200即可
+     * @return
+     */
     public static RespBean success(){
         return new RespBean(200,null,null);
     }
 
-    public static RespBean success(T data){
+    public static <T> RespBean<T> success(T data){
         return new RespBean(200,"",data);
     }
 
@@ -47,7 +51,7 @@ public class RespBean {
      * @param data
      * @return
      */
-    public static RespBean success(String message,Object data){
+    public static <T> RespBean<T> success(String message,T data){
         return new RespBean(200,message,data);
     }
 
@@ -60,18 +64,19 @@ public class RespBean {
         return new RespBean(500,message,null);
     }
 
+    public static RespBean error(long code,String message){
+        return new RespBean(code,message,null);
+    }
     /**
      * 失败返回结果
      * @param message
      * @param data
      * @return
      */
-    public static RespBean error(String message,Object data){
+    public static <T> RespBean<T> error(String message,T data){
         return new RespBean(500,message,data);
     }
 
-    public static RespBean error(Map<String,Object> respMap){
-        return new RespBean((Long)respMap.get("code"),(String)respMap.get("message"),null);
-    }
+
 
 }

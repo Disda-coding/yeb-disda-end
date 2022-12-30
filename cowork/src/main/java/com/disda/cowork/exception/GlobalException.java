@@ -93,8 +93,8 @@ public class GlobalException {
             responseData.put("code", EmBusinessError.UNKNOWN_ERROR.getErrCode());
             responseData.put("message",EmBusinessError.UNKNOWN_ERROR.getErrMsg());
         }
-
-        return RespBean.error(responseData);
+        // 这里的问题
+        return RespBean.error((String) responseData.get("message"));
 
     }
 
