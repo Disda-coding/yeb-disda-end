@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,7 +28,7 @@ public interface IAdminService extends IService<Admin> {
      * @param request
      * @return
      */
-    RespBean login(String username, String password, HttpServletRequest request) throws Exception;
+    Map<String, String> login(String username, String password, HttpServletRequest request) throws Exception;
 
     /**
      * 根据用户名获取用户
@@ -46,7 +47,7 @@ public interface IAdminService extends IService<Admin> {
      * @param request
      * @return
      */
-    RespBean login(String username, String password, String code, HttpServletRequest request) throws Exception;
+    Map<String, String> login(String username, String password, String code, HttpServletRequest request) throws Exception;
     /**
      * 根据用户id查找角色列表
      * @param adminId

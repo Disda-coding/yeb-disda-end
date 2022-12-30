@@ -18,6 +18,6 @@ public class TestController {
     @GetMapping()
     @ApiOperation(value="获取盐")
     public RespBean hello() throws BusinessException {
-        throw new BusinessException(EmBusinessError.USERNAME_EXIST);
+        throw new BusinessException(EmBusinessError.STOCK_NOT_ENOUGH);
     }
 }

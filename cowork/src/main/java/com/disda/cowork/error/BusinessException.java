@@ -18,6 +18,8 @@ public class BusinessException extends Exception implements CommonError{
     }
 
 
+
+
     @Override
     public Long getErrCode() {
         return this.commonError.getErrCode();

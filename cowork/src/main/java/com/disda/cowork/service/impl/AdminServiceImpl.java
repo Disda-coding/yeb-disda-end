@@ -3,14 +3,15 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.disda.cowork.config.security.components.JwtTokenUtil;
+import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.BusinessException;
+import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.mapper.AdminMapper;
 import com.disda.cowork.mapper.AdminRoleMapper;
 import com.disda.cowork.mapper.RoleMapper;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.po.AdminRole;
-import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IAdminService;
 import com.disda.cowork.utils.AdminUtils;
@@ -23,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,7 +75,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public RespBean login(String username, String password, HttpServletRequest request) throws Exception {
+    public Map<String, String> login(String username, String password, HttpServletRequest request) throws Exception {
         //根据用户名从数据库中获取用户信息
         // 因为我们重写了userDetailService中的loaduserbyusername的方法，如果直接引用会造成循环依赖问题
         Admin admin = getAdminByUserName(username);
@@ -83,22 +83,17 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         UserDetails userDetails = admin;
         //如果userDetails为空 或 密码不匹配
         password = AesUtils.decrypt(password, (String) redisTemplate.opsForValue().get("salt_" + username));
-//        log.info("pswd"+password);
         if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
-            return RespBean.error("用户名或密码错误");
+            throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
         }
         //判断用户账号是否被禁用
         if (!userDetails.isEnabled()) {
-            return RespBean.error("账号被禁用,请联系管理员");
+            throw new BusinessException(EmBusinessError.USER_LOCKED);
         }
-
-
         //更新security登录用户对象
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         //放入security全局中（单机部署情况下，可以放入redis中）
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
-
         //生成token
         String token = jwtTokenUtil.generateToken(userDetails);
         //封装返回信息
@@ -108,7 +103,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         //将token头放入返回信息中
         tokenMap.put("tokenHead", tokenHead);
         //将token返回给前端
-        return RespBean.success("登录成功", tokenMap);
+        return tokenMap;
     }
 
     @Override
@@ -118,16 +113,17 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public Boolean getExistUserByUserName(String username) {
-        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username))!=null;
+        return adminMapper.selectOne(new QueryWrapper<Admin>().eq("username", username)) != null;
     }
 
     @Override
-    public RespBean login(String username, String password, String code, HttpServletRequest request) throws Exception {
+    public Map<String, String> login(String username, String password, String code, HttpServletRequest request) throws Exception {
         String captcha = (String) request.getSession().getAttribute("captcha");
 
-        log.error(captcha);
+        log.debug("captcha: "+captcha);
         if (!StringUtils.hasText(code) || !captcha.equalsIgnoreCase(code)) {
-            return RespBean.error("验证码错误，请重新输入");
+            // 验证码错误
+            throw new BusinessException(EmBusinessError.CAPTCHA_ERROR);
         }
         //防止暴力破解
         request.getSession().removeAttribute("captcha");
@@ -225,10 +221,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
     @Override
     public RespBean insert(Admin admin) {
-        if (admin.getPassword() == null || admin.getPassword().trim().length() == 0){
+        if (admin.getPassword() == null || admin.getPassword().trim().length() == 0) {
             admin.setPassword(passwordEncoder.encode(defaultPassword));
         }
-        if (admin.getUserFace()==null || admin.getUserFace().trim().length() == 0){
+        if (admin.getUserFace() == null || admin.getUserFace().trim().length() == 0) {
 
         }
         int result = adminMapper.insert(admin);
