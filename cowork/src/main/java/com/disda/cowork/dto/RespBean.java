@@ -9,6 +9,7 @@ package com.disda.cowork.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.Map;
 
@@ -33,11 +34,11 @@ public class RespBean {
     }
 
     public static RespBean success(){
-        return success(null);
+        return new RespBean(200,null,null);
     }
 
-    public static RespBean success(Object o){
-        return new RespBean(200,"",o);
+    public static RespBean success(T data){
+        return new RespBean(200,"",data);
     }
 
     /**
