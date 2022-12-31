@@ -160,15 +160,15 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    @Transactional
-    public RespBean updateAdminRole(Integer adminId, Integer[] rids) {
+    @Transactional(rollbackFor=Exception.class)
+    public boolean updateAdminRole(Integer adminId, Integer[] rids) {
         //通过adminId删除原id角色
         adminRoleMapper.delete(new QueryWrapper<AdminRole>().eq("adminId", adminId));
         Integer result = adminRoleMapper.updateAdminRole(adminId, rids);
         if (rids.length == result) {
-            return RespBean.success("更新成功");
+            return true;
         }
-        return RespBean.error("更新失败");
+        return false;
     }
 
     /**
@@ -180,7 +180,7 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public RespBean updateAdminPassword(String oldPass, String pass, Integer adminId) {
+    public boolean updateAdminPassword(String oldPass, String pass, Integer adminId) {
         Admin admin = adminMapper.selectById(adminId);
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         //比较输入的旧密码是否正确
@@ -189,10 +189,10 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             admin.setPassword(passwordEncoder.encode(pass));
             int result = adminMapper.updateById(admin);
             if (1 == result) {
-                return RespBean.success("更新成功");
+                return true;
             }
         }
-        return RespBean.error("更新失败");
+        return false;
     }
 
     /**
@@ -204,23 +204,24 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
      * @return
      */
     @Override
-    public RespBean updateAdminUserFace(String url, Integer adminId, Authentication authentication) {
+    public boolean updateAdminUserFace(String url, Integer adminId, Authentication authentication) {
         Admin admin = adminMapper.selectById(adminId);
         admin.setUserFace(url);
         int result = adminMapper.updateById(admin);
-        if (1 == result) {//更新成功
+        //更新成功
+        if (1 == result) {
             //更新全局对象
             Admin principal = (Admin) authentication.getPrincipal();
             principal.setUserFace(url);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-            return RespBean.success("更新成功", url);
+            return true;
         }
-        return RespBean.error("更新失败");
+        return false;
     }
 
     @Override
-    public RespBean insert(Admin admin) {
+    public int insert(Admin admin) {
         if (admin.getPassword() == null || admin.getPassword().trim().length() == 0) {
             admin.setPassword(passwordEncoder.encode(defaultPassword));
         }
@@ -228,19 +229,9 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
 
         }
         int result = adminMapper.insert(admin);
-        if (1 == result) {//更新成功
-            return RespBean.success("成功新建管理员!");
-        }
-        return RespBean.error("新建管理员失败!");
+        return result;
     }
 
-//    private UserModel convertFromDataObject(Admin userDO, AdminInfo userPasswordDO) {
-//        if (userDO==null) return null;
-//        UserModel userModel=new UserModel();
-//        BeanUtils.copyProperties(userDO, userModel);
-//        if (userPasswordDO!=null)
-//            userModel.setPassword(userPasswordDO.getPassword());
-//        return userModel;
-//    }
+
 
 }

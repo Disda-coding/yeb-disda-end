@@ -2,7 +2,6 @@ package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.disda.cowork.po.Admin;
-import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Role;
 import org.springframework.security.core.Authentication;
 
@@ -66,7 +65,7 @@ public interface IAdminService extends IService<Admin> {
      * 更新操作员角色
      * @return
      */
-    RespBean updateAdminRole(Integer adminId,Integer[] rids);
+    boolean updateAdminRole(Integer adminId,Integer[] rids);
 
     /**
      * 更新用户密码
@@ -75,7 +74,7 @@ public interface IAdminService extends IService<Admin> {
      * @param adminId
      * @return
      */
-    RespBean updateAdminPassword(String oldPass, String pass, Integer adminId);
+    boolean updateAdminPassword(String oldPass, String pass, Integer adminId);
 
     /**
      * 更新用户头像
@@ -84,8 +83,8 @@ public interface IAdminService extends IService<Admin> {
      * @param authentication
      * @return
      */
-    RespBean updateAdminUserFace(String url, Integer adminId, Authentication authentication);
+    boolean updateAdminUserFace(String url, Integer adminId, Authentication authentication);
 
 
-    RespBean insert(Admin admin);
+    int insert(Admin admin);
 }

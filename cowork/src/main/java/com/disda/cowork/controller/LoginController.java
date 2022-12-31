@@ -59,24 +59,11 @@ public class LoginController {
         return RespBean.error("登录失败！");
     }
 
-    @ApiOperation(value = "获取当前登录用户信息")
-    @GetMapping("/admin/info")
-    public Admin getAdminInfo(Principal principal) {
-//        log.info(principal.toString());
-        if (principal == null) {
-            return null;
-        }
-        String username = principal.getName();
-        Admin admin = adminService.getAdminByUserName(username);
-        admin.setPassword(null);
-        admin.setRoles(adminService.getRoles(admin.getId()));
-        return admin;
-    }
+
 
     @ApiOperation(value = "退出登录")
     @PostMapping("/logout")
     public RespBean logout(HttpServletRequest request, HttpServletResponse response) {
-//        SecurityContextHolder.clearContext(); 无状态没必要加
         return RespBean.success("注销成功！");
     }
 
