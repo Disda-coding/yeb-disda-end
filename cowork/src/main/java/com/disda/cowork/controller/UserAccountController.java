@@ -53,7 +53,10 @@ public class UserAccountController {
         if(StringUtils.isBlank(adminRegisterParam.getUsername())||StringUtils.isBlank(adminRegisterParam.getEmail())||adminService.getExistUserByUserName(adminRegisterParam.getUsername())){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        return sendMailService.verificationCodeGenerate(adminRegisterParam.getUsername(),adminRegisterParam.getEmail(),request,"verificationCode_");
+        if(sendMailService.verificationCodeGenerate(adminRegisterParam.getUsername(),adminRegisterParam.getEmail(),request,"verificationCode_")){
+            return RespBean.success("已发送验证码！");
+        }
+        return RespBean.error("发送验证码失败!");
     }
 
 
@@ -75,7 +78,10 @@ public class UserAccountController {
         if(StringUtils.isBlank(adminRetrieveParam.getEmail())){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        return sendMailService.verificationCodeGenerate(null,adminRetrieveParam.getEmail(),request,"retrieveCode_");
+        if(sendMailService.verificationCodeGenerate(null,adminRetrieveParam.getEmail(),request,"retrieveCode_")){
+            return RespBean.success("已发送验证码！");
+        }
+        return RespBean.error("发送验证码失败!");
     }
     @PostMapping("/resetAccount")
     public RespBean resetAccount(@Validated @RequestBody AdminRetrieveParam adminRetrieveParam) throws BusinessException {

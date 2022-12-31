@@ -1,8 +1,8 @@
 package com.disda.cowork.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.po.Department;
-import com.disda.cowork.dto.RespBean;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface IDepartmentService extends IService<Department> {
 
     List<Department> getAllDepartments();
 
-    RespBean addDepartment(Department dep);
+    Department addDepartment(Department dep);
 
-    RespBean deleteDepartment(Integer id);
+    boolean deleteDepartment(Integer id) throws BusinessException;
 }

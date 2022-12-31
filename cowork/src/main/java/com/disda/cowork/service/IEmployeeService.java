@@ -24,7 +24,7 @@ public interface IEmployeeService extends IService<Employee> {
 
     RespBean maxWorkId();
 
-    RespBean addEmp(Employee employee);
+    boolean addEmp(Employee employee);
     /**
      * 获取所有员工工资帐套
      * @param currentPage

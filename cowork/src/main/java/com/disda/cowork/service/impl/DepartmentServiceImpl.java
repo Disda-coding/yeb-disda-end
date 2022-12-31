@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.BusinessException;
+import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.mapper.DepartmentMapper;
 import com.disda.cowork.mapper.EmployeeMapper;
 import com.disda.cowork.po.Department;
@@ -38,8 +40,8 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
     }
 
     @Override
-    @Transactional
-    public RespBean addDepartment(Department dep) {
+    @Transactional(rollbackFor = Exception.class)
+    public Department addDepartment(Department dep) {
         //通过存储过程实现
 //        dep.setEnabled(true);
 //        departmentMapper.addDepartment(dep);
@@ -59,12 +61,12 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         fatherDepartment.setIsParent(true);
         departmentMapper.updateById(fatherDepartment);
         departmentMapper.updateById(dep);
-        return RespBean.success("成功添加部门", departmentMapper.selectById(id));
+        return departmentMapper.selectById(id);
     }
 
     @Override
-    @Transactional
-    public RespBean deleteDepartment(Integer id) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean deleteDepartment(Integer id) throws BusinessException {
         // 使用存储过程
 //        Department dep = new Department();
 //        dep.setId(id);
@@ -81,12 +83,13 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         // 如果删除的节点有子节点
         Integer resCount = departmentMapper.selectCount(new LambdaQueryWrapper<Department>().eq(Department::getId, id).eq(Department::getIsParent, false));
         if (resCount == 0) {
-            return RespBean.error("该部门下还有子部门，删除失败！");
+            throw new BusinessException(500,"该部门下还有子部门，删除失败！");
+
         }
         // 如果要删除的节点关联了职工表
         Integer empCount = employeeMapper.selectCount(new LambdaQueryWrapper<Employee>().eq(Employee::getDepartmentId, id));
         if (empCount > 0) {
-            return RespBean.error("该部门下还有员工，删除失败！");
+            throw new BusinessException(500,"该部门下还有子部门，删除失败！");
         }
         //根据id查找
         Department dep = departmentMapper.selectById(id);
@@ -96,6 +99,6 @@ public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Departm
         if (pCount == 0) {
             departmentMapper.update(null, new LambdaUpdateWrapper<Department>().eq(Department::getId, parentId).set(Department::getIsParent, false));
         }
-        return RespBean.success("删除成功！");
+        return true;
     }
 }

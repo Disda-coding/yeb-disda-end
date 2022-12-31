@@ -101,18 +101,18 @@ public class SendMailServiceImpl implements IVerificationCodeService {
         return true;
     }
 
-    //地方有问题
+
     @Override
-    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request,String prefix) throws BusinessException {
+    public boolean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request, String prefix) throws BusinessException {
 
         if(checkAddr(mailAddr) == false){
             log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端检查邮箱格式被绕过");
-            return RespBean.error("非法提交邮箱地址");
+            throw new BusinessException(EmBusinessError.ILLEGAL_PARAMETERS);
         }
         //如果是BOOLEAN返回值，那需要用这个方法，因为可能存在null
         if (Boolean.TRUE.equals(redisTemplate.hasKey(prefix+"flag_" + mailAddr))) {
             log.error(IpUtils.getIpAddr(request) +"绕过前端攻击:前端限制多次请求被绕过");
-            return RespBean.error("非法重复请求邮箱验证码");
+            throw new BusinessException(EmBusinessError.TOO_MANY_REQUESTS);
         }
         String verificationCode = RndUtils.generatorCode();
         // 生成验证码
@@ -124,7 +124,7 @@ public class SendMailServiceImpl implements IVerificationCodeService {
             username = "helloworld";
         }
         sendVerificationCode(mailAddr,username,verificationCode);
-        return RespBean.success("已发送邮箱，请及时查看！");
+        return true;
     }
 
 

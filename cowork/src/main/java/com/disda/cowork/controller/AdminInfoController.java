@@ -59,7 +59,7 @@ public class AdminInfoController {
         if(adminService.updateAdminPassword(oldPass,pass,adminId)){
             return RespBean.success("更新密码成功！");
         };
-        return RespBean.error("更新失败！");
+        return RespBean.error("原密码不正确！");
     }
 
     @ApiOperation(value = "更新用户头像")

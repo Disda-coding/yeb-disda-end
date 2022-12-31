@@ -1,6 +1,7 @@
 package com.disda.cowork.controller;
 
 import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.po.Department;
 import com.disda.cowork.service.IDepartmentService;
 import io.swagger.annotations.Api;
@@ -31,13 +32,17 @@ public class DepartmentController {
     @ApiOperation(value = "添加部门")
     @PostMapping("/")
     public RespBean addDepartment(@RequestBody Department dep){
-        return departmentService.addDepartment(dep);
+        Department department = departmentService.addDepartment(dep);
+        return RespBean.success("成功添加部门",department);
     }
 
     @ApiOperation(value = "删除部门")
     @DeleteMapping("/{id}")
-    public RespBean deleteDepartment(@PathVariable Integer id){
-        return departmentService.deleteDepartment(id);
+    public RespBean deleteDepartment(@PathVariable Integer id) throws BusinessException {
+         if(departmentService.deleteDepartment(id)){
+             return RespBean.success("删除成功！");
+         }
+         return RespBean.success("删除失败！");
     }
 
 

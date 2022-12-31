@@ -17,7 +17,12 @@ public enum EmBusinessError implements CommonError{
     USERNAME_EXIST(20007,"注册用户已存在！"),
 
     //30000开头的为业务错误
-    STOCK_NOT_ENOUGH(30001,"未找到资源");
+    STOCK_NOT_ENOUGH(30001,"未找到资源"),
+
+    //40000开头的为非法请求
+    ILLEGAL_PARAMETERS(40000,"非法参数请求"),
+    TOO_MANY_REQUESTS(40001,"非法多次请求")
+    ;
 
     private long errCode;
     private String errMsg;
@@ -30,6 +35,11 @@ public enum EmBusinessError implements CommonError{
     @Override
     public Long getErrCode() {
         return this.errCode;
+    }
+
+    @Override
+    public void setErrCode(long errCode) {
+        this.errCode = errCode;
     }
 
     @Override

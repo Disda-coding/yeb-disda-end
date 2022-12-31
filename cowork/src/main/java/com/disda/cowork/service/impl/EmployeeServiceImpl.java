@@ -82,7 +82,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
      * @return
      */
     @Override
-    public RespBean addEmp(Employee employee) {
+    public boolean addEmp(Employee employee) {
         //处理合同期限，保留两位小数
         LocalDate beginContract = employee.getBeginContract();
         LocalDate endContract = employee.getEndContract();
@@ -117,9 +117,9 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
             rabbitTemplate.convertAndSend(MailConstants.MAIL_EXCHANGE_NAME,
                     MailConstants.MAIL_ROUTING_KEY_NAME,emp,new CorrelationData(msgId));
 
-            return RespBean.success("添加成功");
+            return true;
         }
-        return RespBean.error("添加失败");
+        return false;
     }
 
     /**

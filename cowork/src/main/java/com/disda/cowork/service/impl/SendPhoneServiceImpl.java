@@ -2,7 +2,6 @@ package com.disda.cowork.service.impl;
 
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.service.IVerificationCodeService;
-import com.disda.cowork.dto.RespBean;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +25,7 @@ public class SendPhoneServiceImpl implements IVerificationCodeService {
     }
 
     @Override
-    public RespBean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request, String prefix) throws BusinessException {
-        return null;
+    public boolean verificationCodeGenerate(String username, String mailAddr, HttpServletRequest request, String prefix) throws BusinessException {
+        return true;
     }
 }

@@ -7,7 +7,6 @@ import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import cn.afterturn.easypoi.excel.entity.enmus.ExcelType;
 import com.disda.cowork.dto.RespBean;
-import com.disda.cowork.dto.RespPageBean;
 import com.disda.cowork.po.*;
 import com.disda.cowork.service.*;
 import io.swagger.annotations.ApiOperation;
@@ -49,69 +48,72 @@ public class EmployeeController {
     @Autowired
     private IDepartmentService departmentService;
 
-    @ApiOperation(value = "高级查询（分页）")
+    @Deprecated
+    @ApiOperation(value = "查询所有员工（分页）")
     @PostMapping("/advanceSearch")
-    public RespPageBean getEmployeeAdvance(
+    public RespBean getEmployeeAdvance(
             @RequestParam(defaultValue = "1") Integer currentPage,
             @RequestParam(defaultValue = "10") Integer size,
             @RequestBody Employee employee,
             LocalDate[] beginDateScope) {
-        System.out.println(employee);
-        return employeeService.getEmployee(currentPage, size, employee, beginDateScope);
+        return RespBean.success(employeeService.getEmployee(currentPage, size, employee, beginDateScope));
     }
 
     @ApiOperation(value = "查询所有员工(分页)")
     @GetMapping("/")
-    public RespPageBean getEmployee(
+    public RespBean getEmployee(
             @RequestParam(defaultValue = "1") Integer currentPage,
             @RequestParam(defaultValue = "10") Integer size,
              Employee employee,
             LocalDate[] beginDateScope) {
-        return employeeService.getEmployee(currentPage, size, employee, beginDateScope);
+        return RespBean.success(employeeService.getEmployee(currentPage, size, employee, beginDateScope));
     }
 
 
     @ApiOperation(value = "获取所有政治面貌")
     @GetMapping("/politicsstatus")
-    public List<PoliticsStatus> getAllPoliticsStatus() {
-        return politicsStatusService.list();
+    public RespBean getAllPoliticsStatus() {
+        return RespBean.success(politicsStatusService.list());
     }
 
     @ApiOperation(value = "获取所有职称")
     @GetMapping("/joblevels")
-    public List<Joblevel> getAllJoblevels() {
-        return joblevelService.list();
+    public RespBean getAllJoblevels() {
+        return RespBean.success(joblevelService.list());
     }
 
     @ApiOperation(value = "获取所有民族")
     @GetMapping("/nations")
-    public List<Nation> getAllNations() {
-        return nationService.list();
+    public RespBean  getAllNations() {
+        return RespBean.success(nationService.list());
     }
 
     @ApiOperation(value = "获取所有职位")
     @GetMapping("/positions")
-    public List<Position> getAllPositions() {
-        return positionService.list();
+    public RespBean getAllPositions() {
+        return RespBean.success(positionService.list());
     }
 
     @ApiOperation(value = "获取所有部门")
     @GetMapping("/deps")
-    public List<Department> getAllDepartments() {
-        return departmentService.getAllDepartments();
+    public RespBean getAllDepartments() {
+        return RespBean.success(departmentService.getAllDepartments());
     }
 
     @ApiOperation(value = "获取工号(最大)")
     @GetMapping("/maxWorkId")
     public RespBean maxWorkId() {
-        return employeeService.maxWorkId();
+        return RespBean.success(employeeService.maxWorkId());
     }
 
     @ApiOperation(value = "添加员工")
     @PostMapping("/")
     public RespBean addEmp(@RequestBody Employee employee) {
         //需计算合同期限
-        return employeeService.addEmp(employee);
+        if (employeeService.addEmp(employee)){
+            return RespBean.success("添加成功！");
+        }
+        return RespBean.error("添加失败！");
     }
 
     @ApiOperation(value = "更新员工")
@@ -133,9 +135,11 @@ public class EmployeeController {
         return RespBean.error("删除失败");
     }
 
+    /**
+     * produces：指定响应体返回类型和编码
+     */
     @ApiOperation(value = "导出员工数据")
     @GetMapping(value = "/export", produces = "application/octet-stream")
-    //produces：指定响应体返回类型和编码
     public void exportEmployee(HttpServletResponse response) {
         //没有传入id，查所有
         List<Employee> list = employeeService.getAllEmployee(null);
@@ -169,7 +173,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "导出模板")
     @PostMapping(value="/export", produces = "application/octet-stream")
-    public void exportTemplate(HttpServletResponse response) {
+    public RespBean exportTemplate(HttpServletResponse response) {
         List<Employee> list = new ArrayList<>();
         //导出参数，标题的名字，表的名字，Excel类型，HSSF 03版
         ExportParams params = new ExportParams("员工表", "员工表", ExcelType.HSSF);
@@ -185,8 +189,10 @@ public class EmployeeController {
                     + URLEncoder.encode("导出模板表.xls", "utf-8"));
             out = response.getOutputStream();
             workbook.write(out);
+            return RespBean.success("导入成功！");
         } catch (IOException e) {
             e.printStackTrace();
+            return RespBean.error("导入失败！");
         } finally {
             if (null != out) {
                 try {
