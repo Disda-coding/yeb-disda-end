@@ -34,8 +34,8 @@ public class PermissionController {
 
     @ApiOperation(value = "获取所有角色")
     @GetMapping("/")
-    public List<Role> getAllRoles(){
-        return roleService.list();
+    public RespBean getAllRoles(){
+        return RespBean.success(roleService.list());
     }
 
     @ApiOperation("添加角色")
@@ -62,21 +62,25 @@ public class PermissionController {
 
     @ApiOperation(value = "查询所有菜单")
     @GetMapping("/menus")
-    public List<Menu> getAllMenus(){
-        return menuService.getAllMenus();
+    public RespBean getAllMenus(){
+        return RespBean.success(menuService.getAllMenus());
     }
 
     @ApiOperation(value = "根据角色id查找菜单id")
     @GetMapping("/mid/{rid}")
-    public List<Integer> getMidByRid(@PathVariable Integer rid){
-        return menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid",rid))
-                .stream().map(MenuRole::getMid).collect(Collectors.toList());
+    public RespBean getMidByRid(@PathVariable Integer rid){
+        return RespBean.success(menuRoleService.list(new QueryWrapper<MenuRole>().eq("rid",rid))
+                .stream().map(MenuRole::getMid).collect(Collectors.toList()));
     }
 
     @ApiOperation(value = "根据角色id更新角色菜单")
     @PutMapping("/")
     public RespBean updateMenuRole(Integer rid,Integer[] mids){
-        return menuRoleService.updateMenuRole(rid,mids);
+        if(menuRoleService.updateMenuRole(rid,mids)) {
+            return RespBean.success("更新成功！");
+        }
+        return RespBean.error("更新失败！");
+
     }
 
 }

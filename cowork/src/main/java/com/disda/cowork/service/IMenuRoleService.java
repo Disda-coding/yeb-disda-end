@@ -14,5 +14,5 @@ import com.disda.cowork.dto.RespBean;
  */
 public interface IMenuRoleService extends IService<MenuRole> {
 
-    RespBean updateMenuRole(Integer rid, Integer[] mids);
+    boolean updateMenuRole(Integer rid, Integer[] mids);
 }

@@ -30,19 +30,19 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
      * @return
      */
     @Override
-    @Transactional
-    public RespBean updateMenuRole(Integer rid, Integer[] mids) {
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateMenuRole(Integer rid, Integer[] mids) {
         //先通过角色id删除所有菜单id
         menuRoleMapper.delete(new QueryWrapper<MenuRole>().eq("rid",rid));
         //如 本就只有一个菜单id，将其删除(更新)，mids就为空
         if (null==mids || 0==mids.length){
-            return RespBean.success("更新成功");
+            return true;
         }
         //自定义一个批量更新
         Integer result = menuRoleMapper.insertRecord(rid, mids);
         if (result == mids.length){
-            return RespBean.success("更新成功");
+            return true;
         }
-        return RespBean.error("更新失败");
+        return false;
     }
 }

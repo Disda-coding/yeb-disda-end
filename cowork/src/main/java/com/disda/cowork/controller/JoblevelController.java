@@ -29,8 +29,8 @@ public class JoblevelController {
 
     @ApiOperation("获取所有职称")
     @GetMapping("/")
-    public List<Joblevel> getAllJobLevels(){
-        return joblevelService.list();
+    public RespBean getAllJobLevels(){
+        return RespBean.success(joblevelService.list());
     }
 
     @ApiOperation("添加职称")
@@ -73,8 +73,8 @@ public class JoblevelController {
     @Deprecated
     @ApiOperation("获取职称等级")
     @GetMapping("/getLevels")
-    public List<Joblevel> getJobLevel(){
-        return joblevelService.getLevels();
+    public RespBean getJobLevel(){
+        return RespBean.success(joblevelService.getLevels());
     }
 
 }
