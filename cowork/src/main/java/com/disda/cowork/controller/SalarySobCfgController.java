@@ -30,15 +30,15 @@ public class SalarySobCfgController {
 
     @ApiOperation(value = "获取所有工资帐套")
     @GetMapping("/salaries")
-    public List<Salary> getAllSalaries(){
-        return salaryService.list();
+    public RespBean getAllSalaries(){
+        return RespBean.success(salaryService.list());
     }
 
     @ApiOperation(value = "获取所有员工及其工资帐套")
     @GetMapping("/")
-    public RespPageBean getAllEmployeeWithSalary(@RequestParam(defaultValue = "1") Integer currentPage,
+    public RespBean getAllEmployeeWithSalary(@RequestParam(defaultValue = "1") Integer currentPage,
                                                  @RequestParam(defaultValue = "10") Integer size){
-        return employeeService.getAllEmployeeWithSalary(currentPage,size);
+        return RespBean.success(employeeService.getAllEmployeeWithSalary(currentPage,size));
     }
 
     @ApiOperation(value = "更新员工工资帐套")

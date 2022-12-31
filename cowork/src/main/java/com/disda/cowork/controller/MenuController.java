@@ -1,6 +1,7 @@
 package com.disda.cowork.controller;
 
 
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Menu;
 import com.disda.cowork.service.IMenuService;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +28,8 @@ public class MenuController {
 
     @ApiOperation(value = "通过用户id查询菜单列表")
     @GetMapping("/menu")
-    public List<Menu> getMenusByAdminId(){
-        return menuService.getMenusByAdminId();
+    public RespBean getMenusByAdminId(){
+        return RespBean.success(menuService.getMenusByAdminId());
     }
 
 

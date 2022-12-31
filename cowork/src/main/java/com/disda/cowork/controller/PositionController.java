@@ -32,8 +32,8 @@ public class PositionController {
 
     @ApiOperation(value = "获取所有职位信息")
     @GetMapping("/")
-    public List<Position> getAllPositions(){
-        return positionService.list();
+    public RespBean getAllPositions(){
+        return RespBean.success(positionService.list());
     }
     @ApiOperation(value = "添加职位信息")
     @PostMapping("/")

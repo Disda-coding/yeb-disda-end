@@ -1,6 +1,7 @@
 package com.disda.cowork.controller;
 
 
+import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.service.IAdminService;
 import io.swagger.annotations.ApiOperation;
@@ -23,8 +24,8 @@ public class ChatController {
 
     @ApiOperation(value = "获取所有操作员")
     @GetMapping("/admin")
-    public List<Admin> getAllAdmins(String keywords){
-        return adminService.getAllAdmins(keywords);
+    public RespBean getAllAdmins(String keywords){
+        return RespBean.success(adminService.getAllAdmins(keywords));
     }
 
 }

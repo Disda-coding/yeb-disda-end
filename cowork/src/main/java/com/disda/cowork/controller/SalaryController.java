@@ -28,8 +28,8 @@ public class SalaryController {
 
     @ApiOperation(value = "获取所有工资账单")
     @GetMapping("/")
-    public List<Salary> getAllSalaries(){
-        return salaryService.list();
+    public RespBean getAllSalaries(){
+        return RespBean.success(salaryService.list());
     }
 
     @ApiOperation(value = "添加工资账单")

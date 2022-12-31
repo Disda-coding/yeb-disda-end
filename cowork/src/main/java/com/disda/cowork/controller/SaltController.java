@@ -26,7 +26,6 @@ public class SaltController {
     @ApiOperation(value="获取盐")
     @PostMapping("/getSalt")
     public RespBean getSalt(@RequestBody AdminLoginParam adminLoginParam){
-//        System.out.println(adminLoginParam.getUsername());
         log.info("salt "+saltService.generateSalt(adminLoginParam.getUsername()));
         return saltService.generateSalt(adminLoginParam.getUsername());
     }

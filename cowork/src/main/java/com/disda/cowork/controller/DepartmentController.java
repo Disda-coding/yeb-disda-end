@@ -25,8 +25,8 @@ public class DepartmentController {
 
     @ApiOperation(value = "获取所有部门")
     @GetMapping("/")
-    public List<Department> getAllDepartments(){
-        return departmentService.getAllDepartments();
+    public RespBean getAllDepartments(){
+        return RespBean.success(departmentService.getAllDepartments());
     }
 
     @ApiOperation(value = "添加部门")
