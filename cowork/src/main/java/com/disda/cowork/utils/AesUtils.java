@@ -35,7 +35,7 @@ public class AesUtils {
 
 
     @Value("${aes.iv}")
-    public void AESIv(String iv) {
+    public void aesiv(String iv) {
         IV = iv;
     }
 
@@ -50,7 +50,8 @@ public class AesUtils {
      */
     public static String encrypt(String data, String key) throws Exception {
         try {
-            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_CBC);//"算法/模式/补码方式"NoPadding PKCS5Padding
+            //"算法/模式/补码方式"NoPadding PKCS5Padding
+            Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM_CBC);
             int blockSize = cipher.getBlockSize();
 
             byte[] dataBytes = data.getBytes();
@@ -122,7 +123,7 @@ public class AesUtils {
      * @return
      * @throws Exception
      */
-    public static String decrypt(String s, String KEY, String data) throws Exception {
+    public static String decrypt(String s, String kEY, String data) throws Exception {
         return decrypt(data, AesUtils.KEY, IV);
     }
 

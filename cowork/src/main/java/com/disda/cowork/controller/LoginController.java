@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @program: cowork-back
  * @description: 登录控制器
- * @author: liu yan
+ * @author: Disda
  * @create: 2022-01-24 10:10
  */
 @RestController
@@ -51,8 +51,7 @@ public class LoginController {
     @PostMapping("/login")
     public RespBean login(@RequestBody AdminLoginParam adminLoginParam, HttpServletRequest request) throws Exception {
         // 无验证码模式
-        Map<String,String> tokenMap = new HashMap();
-        tokenMap =  adminService.login(adminLoginParam.getUsername(), adminLoginParam.getPassword(), request);
+        Map<String,String> tokenMap =  adminService.login(adminLoginParam.getUsername(), adminLoginParam.getPassword(), request);
         if(tokenMap.containsKey("token")){
             return RespBean.success("登录成功！",tokenMap);
         }

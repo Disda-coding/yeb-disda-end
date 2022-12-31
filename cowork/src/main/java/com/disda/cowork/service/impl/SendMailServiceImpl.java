@@ -82,8 +82,8 @@ public class SendMailServiceImpl implements IVerificationCodeService {
             registryContent = registryContent.replace("{verificationCode}", verificationCode);
             registryContent = registryContent.replace("{username}",username);
             registryContent = registryContent.replace("{addr}",mailAddr);
-
-            helper.setText(registryContent,true);		//此处设置正文支持html解析
+            //此处设置正文支持html解析
+            helper.setText(registryContent,true);
             javaMailSender.send(message);
         } catch (Exception e) {
             throw new BusinessException(EmBusinessError.MAIL_NOT_EXIST);

@@ -38,7 +38,7 @@ public class UserAccountController {
 
     @ApiOperation("判断用户名是否合法")
     @GetMapping()
-    public RespBean Register(String username) throws BusinessException {
+    public RespBean register(String username) throws BusinessException {
         System.out.println(username);
         if(adminService.getExistUserByUserName(username)){
             throw new BusinessException(EmBusinessError.USERNAME_EXIST);
@@ -61,7 +61,7 @@ public class UserAccountController {
 
 
     @PostMapping()
-    public RespBean Register(@Validated @RequestBody AdminRegisterParam adminRegisterParam) throws BusinessException {
+    public RespBean register(@Validated @RequestBody AdminRegisterParam adminRegisterParam) throws BusinessException {
         // 验证用户信息是否合法(使用Validated),验证用户名是否存在（默认允许一个邮箱多个用户） @Validated做了
         // 验证邮箱验证码
         if(sendMailService.verifyCode(adminRegisterParam.getEmail(),adminRegisterParam.getRegisterCode(),"verificationCode_")) {
