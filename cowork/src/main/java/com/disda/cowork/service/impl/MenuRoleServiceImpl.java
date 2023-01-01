@@ -7,8 +7,11 @@ import com.disda.cowork.po.MenuRole;
 import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.service.IMenuRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 /**
  * <p>
@@ -22,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> implements IMenuRoleService {
     @Autowired
     private MenuRoleMapper menuRoleMapper;
+
 
     /**
      * 根据角色id更新角色菜单
@@ -41,6 +45,9 @@ public class MenuRoleServiceImpl extends ServiceImpl<MenuRoleMapper, MenuRole> i
         //自定义一个批量更新
         Integer result = menuRoleMapper.insertRecord(rid, mids);
         if (result == mids.length){
+            // 让redis中的菜单缓存失效，否则会有bug,删除代价有点高，menu访问其实就一次
+//            Set<String> keys = redisTemplate.keys("menus_"+"*");
+//            redisTemplate.delete(keys);
             return true;
         }
         return false;
