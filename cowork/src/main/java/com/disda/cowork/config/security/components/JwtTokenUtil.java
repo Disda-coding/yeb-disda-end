@@ -4,6 +4,7 @@ package com.disda.cowork.config.security.components;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ import java.util.Map;
  * JwtToken工具类
  */
 @Component
+@Slf4j
 public class JwtTokenUtil {
 
     private static final String CLAIM_KEY_USERNAME="sub";
@@ -90,8 +92,9 @@ public class JwtTokenUtil {
         }
         Date expireDate = getExpiredDateFormToken(token);
         Date now = new Date();
-        Long diff =now.getTime() - expireDate.getTime();
-        long diffSeconds = diff / 1000 % 60;
+        Long diff =expireDate.getTime()-now.getTime();
+        long diffSeconds = diff / 1000;
+        log.info("超时时间为{}s",diffSeconds);
         return diffSeconds<=deadline;
     }
 
@@ -107,12 +110,13 @@ public class JwtTokenUtil {
         return generateToken(claims);
     }
 
+
     /**
      * 判断token时间是否失效
      * @param token
      * @return
      */
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         //获取过期时间
         Date expireDate = getExpiredDateFormToken(token);
         //before 之前，判断当前时间是否是获取的时间之前(未过期)
@@ -124,7 +128,7 @@ public class JwtTokenUtil {
      * @param token
      * @return
      */
-    private Date getExpiredDateFormToken(String token) {
+    public Date getExpiredDateFormToken(String token) {
         Claims claims = getClaimsFromToken(token);
         return claims.getExpiration();
     }

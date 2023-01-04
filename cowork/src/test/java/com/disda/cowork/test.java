@@ -1,5 +1,6 @@
 package com.disda.cowork;
 
+import com.disda.cowork.config.security.components.JwtTokenUtil;
 import com.disda.cowork.dto.AdminLogonParam;
 
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 /**
  * @program: cowork-back
@@ -20,7 +22,17 @@ import javax.validation.Valid;
 public class test {
     @Value("${default.password}")
     String password;
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
 
+    @Test
+    public void jwt() {
+
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2NzM0MjA0NDUsInN1YiI6ImFkbWluIiwiY3JlYXRlZCI6MTY3MjgxNTY0NTQ4OX0.Cdl1RKV0C7yOSzysPr-RyyijZSnt3UkGBJW-3fzcGjHorVYBuEcFYfliCurkFyhjCR5esw2zw-_NYT0tks7Bbg";
+        System.out.println(jwtTokenUtil.getExpiredDateFormToken(token));
+        System.out.println(new Date());
+        System.out.println(jwtTokenUtil.canRefresh(token));
+    }
 
     @Test
     public void paramTest(){

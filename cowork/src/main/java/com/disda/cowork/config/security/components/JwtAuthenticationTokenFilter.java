@@ -92,7 +92,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     }
                 }
                 if (jwtTokenUtil.canRefresh(authToken)){
-                    log.info("用户{}刷新了jwt",username);
+                    log.info("用户{}刷新了jwt,原jwt为{}",username,authToken);
                     //封装返回信息
                     Map<String, String> tokenMap = new HashMap<>(2);
                     String token = jwtTokenUtil.refreshToken(authToken);
