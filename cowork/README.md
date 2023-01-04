@@ -9,8 +9,11 @@
 - Redis
 - Mysql
 - JWT
+- jackson
 - EasyPOI
 - WebSocket
+## JWT拦截器
+- 实现了令牌刷新机制
 ## exception
 添加了全局的异常处理
 ## Service

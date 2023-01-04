@@ -7,6 +7,7 @@ import com.disda.cowork.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,6 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomFilter customFilter;
 
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 
     //以后security会走自己写的userDetailsService和passwordEncoder
     @Override
@@ -88,6 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 //基于token，不需要session
                 .sessionManagement()
+                // 无状态，不用session保存了
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 //授权认证
@@ -125,7 +132,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 重写了userDetailsService中根据用户名获取用户信息的方法
          */
-        return username -> {
+        return  username -> {
             Admin admin = adminService.getAdminByUserName(username);
             if (null!=admin){
                 admin.setRoles(adminService.getRoles(admin.getId()));

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class JwtTokenUtil {
     //JWT的超期限时间（60*60*24）
     @Value("${jwt.expiration}")
     private Long expiration;
+
+    @Value("${jwt.deadline}")
+    private Long deadline;
 
 
     /**
@@ -80,7 +84,15 @@ public class JwtTokenUtil {
      * @return
      */
     public boolean canRefresh(String token){
-        return !isTokenExpired(token);
+        //获取过期时间
+        if (isTokenExpired(token)) {
+            return false;
+        }
+        Date expireDate = getExpiredDateFormToken(token);
+        Date now = new Date();
+        Long diff =now.getTime() - expireDate.getTime();
+        long diffSeconds = diff / 1000 % 60;
+        return diffSeconds<=deadline;
     }
 
     /**

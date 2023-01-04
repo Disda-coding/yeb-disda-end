@@ -2,6 +2,8 @@ package com.disda.cowork.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.disda.cowork.error.BusinessException;
+import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.mapper.AdminMapper;
 import com.disda.cowork.po.Admin;
 import com.disda.cowork.service.IVerificationCodeService;
@@ -15,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -36,7 +39,7 @@ public class SaltServiceImpl implements ISaltService {
     IVerificationCodeService sendMailService;
 
     @Override
-    public RespBean generateSalt(String username) {
+    public Map generateSalt(String username) throws BusinessException {
         //根据用户名从数据库中获取用户信息
         QueryWrapper<Admin> userQueryWrapper = Wrappers.query();
         userQueryWrapper.eq("username", username);
@@ -44,7 +47,7 @@ public class SaltServiceImpl implements ISaltService {
         //如果userDetails为空 或 密码不匹配
         HashMap<String, String> res = new HashMap<>(1);
         if (admin == null) {
-            return RespBean.error("用户名不存在！");
+            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
         }
         else {
             if (Boolean.TRUE.equals(redisTemplate.hasKey("salt_" + username))) {
@@ -54,7 +57,7 @@ public class SaltServiceImpl implements ISaltService {
                 redisTemplate.opsForValue().set("salt_" + username, salt, 5, TimeUnit.MINUTES);
                 res.put("salt", salt);
             }
-            return RespBean.success(res);
+            return res;
         }
     }
 

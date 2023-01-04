@@ -4,7 +4,6 @@ package com.disda.cowork.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.disda.cowork.config.security.components.JwtTokenUtil;
-import com.disda.cowork.dto.RespBean;
 import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.error.EmBusinessError;
 import com.disda.cowork.mapper.AdminMapper;
@@ -20,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,7 +50,11 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     String defaultPassword;
     @Value("${default.userFace}")
     String userFace;
+    @Value("${jwt.expiration}")
+    Long expiration;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
     @Autowired
     private RedisTemplate redisTemplate;
     @Autowired
@@ -83,17 +87,25 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         UserDetails userDetails = admin;
         //如果userDetails为空 或 密码不匹配
         password = AesUtils.decrypt(password, (String) redisTemplate.opsForValue().get("salt_" + username));
-        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+//        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+//            throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
+//        }
+
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        //  使用springsecurity自带的方法而不是我们自己调用passencoder
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        if (authentication == null){
             throw new BusinessException(EmBusinessError.USER_LOGIN_FAIL);
         }
         //判断用户账号是否被禁用
         if (!userDetails.isEnabled()) {
             throw new BusinessException(EmBusinessError.USER_LOCKED);
         }
-        //更新security登录用户对象
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        //放入security全局中（单机部署情况下，可以放入redis中）
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+//        //更新security登录用户对象
+       UsernamePasswordAuthenticationToken authenToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//         redisTemplate.opsForValue().set("login_"+username, userDetails,expiration, TimeUnit.SECONDS);
+        //放入SecurityContextHolder中，后续filter就可以获取登录状态
+        SecurityContextHolder.getContext().setAuthentication(authenToken);
         //生成token
         String token = jwtTokenUtil.generateToken(userDetails);
         //封装返回信息

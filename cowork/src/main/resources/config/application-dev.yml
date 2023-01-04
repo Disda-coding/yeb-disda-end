@@ -92,7 +92,7 @@ mybatis-plus:
   #配置Mybatis数据返回类型(默认别名是类名)
   type-aliases-package: com.disda.cowork.server.pojo
   configuration:
-    #自动驼峰命名法
+    #自动驼峰命名法转下划线关闭
     map-underscore-to-camel-case: false
 
 #mybatis sql 打印(方法接口所在的包，不是Mapper.xml所在的包)
@@ -109,7 +109,9 @@ jwt:
   tokenHeader: Authorization
   # JWT 加解密使用的密钥
   secret: yeb-secret
-  # JWT的超期限时间（60*60*24）
+  # JWT的超期限时间（60*60*24）604800
   expiration: 604800
+  # 设置还多久需要刷令牌 3600
+  deadline: 3600
   # JWT 负载中拿到开头
   tokenHead: Bearer

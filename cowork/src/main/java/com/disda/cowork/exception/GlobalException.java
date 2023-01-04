@@ -88,7 +88,8 @@ public class GlobalException {
             errCode = EmBusinessError.UNKNOWN_ERROR.getErrCode();
             errMsg = "没有找到对应的访问路径";
         } else {
-            ex.printStackTrace();
+            errCode = EmBusinessError.SERVER_ERROR.getErrCode();
+            errMsg = EmBusinessError.SERVER_ERROR.getErrMsg();
         }
         // 这里的问题
         return RespBean.error(errCode,errMsg);

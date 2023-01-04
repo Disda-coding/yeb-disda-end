@@ -2,6 +2,7 @@ package com.disda.cowork.controller;
 
 import com.disda.cowork.dto.AdminLoginParam;
 import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.BusinessException;
 import com.disda.cowork.service.ISaltService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,8 +26,8 @@ public class SaltController {
 
     @ApiOperation(value="获取盐")
     @PostMapping("/getSalt")
-    public RespBean getSalt(@RequestBody AdminLoginParam adminLoginParam){
-        log.info("salt "+saltService.generateSalt(adminLoginParam.getUsername()));
-        return saltService.generateSalt(adminLoginParam.getUsername());
+    public RespBean getSalt(@RequestBody AdminLoginParam adminLoginParam) throws BusinessException {
+
+        return RespBean.success(saltService.generateSalt(adminLoginParam.getUsername()));
     }
 }

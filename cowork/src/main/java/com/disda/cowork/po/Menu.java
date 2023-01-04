@@ -34,10 +34,10 @@ public class Menu implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty(value = "url")
+    @ApiModelProperty(value = "对应后端的url")
     private String url;
 
-    @ApiModelProperty(value = "path")
+    @ApiModelProperty(value = "对应前端组件存放的位置")
     private String path;
 
     @ApiModelProperty(value = "组件")

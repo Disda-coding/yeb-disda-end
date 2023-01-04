@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.disda.cowork.config.CustomAuthorityDeserializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import io.swagger.annotations.ApiModel;
@@ -23,10 +24,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * <p>
- *
+ *  可以用让它继承一个loginUser类，实现解耦
  * </p>
  *
- * @author sheng
+ * @author Disda
  * @since 2021-10-12
  */
 @Data

@@ -1,8 +1,13 @@
 package com.disda.cowork.config.security.components;
 
+import com.disda.cowork.dto.RespBean;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @program: cowork-back
@@ -21,6 +29,7 @@ import java.io.IOException;
  * @author: disda
  * @create: 2022-01-24 14:52
  */
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Value("${jwt.tokenHeader}")
@@ -35,6 +44,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * 返回刷新后的token
+     * @param httpServletResponse
+     * @param tokenMap
+     * @throws IOException
+     */
+    public void refreshToken(HttpServletResponse httpServletResponse, Map<String, String> tokenMap) throws IOException {
+        httpServletResponse.setCharacterEncoding("UTF-8");
+        httpServletResponse.setContentType("application/json");
+        PrintWriter out = httpServletResponse.getWriter();
+        RespBean bean = RespBean.success(tokenMap);
+        bean.setCode(666);
+        out.write(new ObjectMapper().writeValueAsString(bean));
+        out.flush();
+        out.close();
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -47,21 +73,41 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader(tokenHeader);
         // 存在token
-        if(authHeader!=null&&authHeader.startsWith(tokenHead)){
+        if (authHeader != null && authHeader.startsWith(tokenHead)) {
             String authToken = authHeader.substring(tokenHead.length());
             String username = jwtTokenUtil.getUserNameFromToken(authToken);
             // token存在用户名，但是未登录
-            if(username!=null && SecurityContextHolder.getContext().getAuthentication() == null){
-                // 登录
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                // 验证Token是否有效，重新设置用户对象
-                if(jwtTokenUtil.validateToken(authToken,userDetails)){
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
-                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            if (username!=null){
+                if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                    // 登录
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    //  使用redis获取已有的用户,其实多此一举，因为这种情况就一次，放入context中就好了
+                    // UserDetails userDetails= (UserDetails) redisTemplate.opsForValue().get("login_"+username);
+                    // 验证Token是否有效，重新设置用户对象
+                    if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                    }
+                }
+                if (jwtTokenUtil.canRefresh(authToken)){
+                    log.info("用户{}刷新了jwt",username);
+                    //封装返回信息
+                    Map<String, String> tokenMap = new HashMap<>(2);
+                    String token = jwtTokenUtil.refreshToken(authToken);
+                    //将token放入返回信息中
+                    tokenMap.put("token", token);
+                    //将token头放入返回信息中
+                    tokenMap.put("tokenHead", tokenHead);
+                    refreshToken(response,tokenMap);
+                    // 不走拦截链了，但需要前端重发请求。
+                    return;
                 }
             }
+
+
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

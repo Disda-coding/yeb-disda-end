@@ -5,6 +5,7 @@ public enum EmBusinessError implements CommonError{
     PARAMETER_VALIDATION_ERROR(10001,"参数不合法"),
     UNKNOWN_ERROR(10002,"未知错误"),
     DB_INSERT_ERROR(10003,"数据库插入错误"),
+    SERVER_ERROR(10004,"服务器内部错误，请联系管理员"),
 
     //20000开头为用户信息相关错误定义
     MAIL_NOT_EXIST(20005,"用户邮箱不存在或不支持"),
