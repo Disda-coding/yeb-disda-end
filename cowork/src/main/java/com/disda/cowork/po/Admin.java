@@ -1,5 +1,6 @@
 package com.disda.cowork.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -31,6 +32,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @since 2021-10-12
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
@@ -89,7 +92,8 @@ public class Admin implements Serializable, UserDetails {
      * @return
      */
     @Override
-    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
+    @JSONField(serialize = false)
+    // @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = roles
                 .stream()

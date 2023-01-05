@@ -32,6 +32,6 @@ public class RedisTest {
 
         redisTemplate.opsForValue().set("test",admin ,999999, TimeUnit.SECONDS);
         UserDetails user = (Admin) redisTemplate.opsForValue().get("test");
-        System.out.println(user);
+        System.out.println(user.getAuthorities());
     }
 }

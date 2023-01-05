@@ -111,7 +111,7 @@ jwt:
   secret: yeb-secret
   # JWT的超期限时间（60*60*24）604800
   expiration: 604800
-  # 设置还多久需要刷令牌 3600
+  # 设置还多久需要刷令牌，60分钟内有操作则无感刷新token 3600
   deadline: 3600
   # JWT 负载中拿到开头
   tokenHead: Bearer

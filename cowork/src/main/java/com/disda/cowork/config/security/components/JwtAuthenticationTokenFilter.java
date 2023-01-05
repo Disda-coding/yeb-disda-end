@@ -82,6 +82,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     // 登录
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     //  使用redis获取已有的用户,其实多此一举，因为这种情况就一次，放入context中就好了
+                    //  加入Redis作用可以踢出用户和加快每次请求速度
                     // UserDetails userDetails= (UserDetails) redisTemplate.opsForValue().get("login_"+username);
                     // 验证Token是否有效，重新设置用户对象
                     if (jwtTokenUtil.validateToken(authToken, userDetails)) {
