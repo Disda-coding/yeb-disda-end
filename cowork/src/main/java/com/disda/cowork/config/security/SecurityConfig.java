@@ -116,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cacheControl();
 
         //添加jwt 登录授权过滤器
+        // 不使用formlogin就不存在UsernamePasswordAuthenticationFilter
         http.addFilterBefore(jwtAuthencationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         //异常处理
@@ -130,7 +131,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected UserDetailsService userDetailsService() {
         /**
-         * 重写了userDetailsService中根据用户名获取用户信息的方法
+         * 重写了userDetailsService中根据用户名获取用户信息的方法loadByUserName
+         * 实现类也可以写在Service层里面
+         *
          */
         return  username -> {
             Admin admin = adminService.getAdminByUserName(username);
@@ -142,11 +145,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
+    /**
+     * 使用BCryptPasswordEncoder做为我们的密码加密工具
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 注入我们自定义的JWT令牌过滤器
+     * @return
+     */
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthencationTokenFilter(){
         return new JwtAuthenticationTokenFilter();

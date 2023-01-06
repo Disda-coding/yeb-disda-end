@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @MapperScan("com.disda.cowork.mapper")
-@EnableScheduling
+// @EnableScheduling
 public class CoworkApplication {
     //http://localhost:8081/doc.html
 

@@ -2,6 +2,7 @@ package com.disda.cowork.config.security.components;
 
 
 import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.EmBusinessError;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -28,8 +29,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler {
         httpServletResponse.setCharacterEncoding("UTF-8");
         httpServletResponse.setContentType("application/json");
         PrintWriter out = httpServletResponse.getWriter();
-        RespBean bean = RespBean.error("权限不足，请联系管理员！");
-        bean.setCode(403);
+        RespBean bean = RespBean.error(EmBusinessError.USER_NOT_PERMITTED.getErrCode(),EmBusinessError.USER_NOT_PERMITTED.getErrMsg());
         out.write(new ObjectMapper().writeValueAsString(bean));
         out.flush();
         out.close();

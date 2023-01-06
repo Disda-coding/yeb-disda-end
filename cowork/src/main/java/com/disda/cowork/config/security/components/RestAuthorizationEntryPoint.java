@@ -1,7 +1,10 @@
 package com.disda.cowork.config.security.components;
 
 import com.disda.cowork.dto.RespBean;
+import com.disda.cowork.error.BusinessException;
+import com.disda.cowork.error.EmBusinessError;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -21,13 +24,22 @@ import java.io.PrintWriter;
 @Component
 public class RestAuthorizationEntryPoint implements AuthenticationEntryPoint {
 
+    /**
+     * 不能通过throw自定义报错来实现，因为这个方法是overwritten的，父类方法没有抛异常
+     * @param httpServletRequest
+     * @param httpServletResponse
+     * @param e
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+        // 设置编码方式为UTF-8
         httpServletResponse.setCharacterEncoding("UTF-8");
+        // 内容为json
         httpServletResponse.setContentType("application/json");
         PrintWriter out = httpServletResponse.getWriter();
-        RespBean bean = RespBean.error("尚未登录或者登录超时");
-        bean.setCode(401);
+        RespBean bean = RespBean.error(EmBusinessError.USER_NOT_LOGIN.getErrCode(),EmBusinessError.USER_NOT_LOGIN.getErrMsg());
         out.write(new ObjectMapper().writeValueAsString(bean));
         out.flush();
         out.close();
