@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //使用JWT，不需要csrf，关闭csrf防范
+        //使用JWT，不需要csrf，关闭csrf防范，因为前后端分离我们不需要cookie防止跨域请求了
         http
                 .csrf().disable()
                 //基于token，不需要session
