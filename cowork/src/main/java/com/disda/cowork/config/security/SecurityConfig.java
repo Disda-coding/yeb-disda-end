@@ -23,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * Security配置类
+ * @author Disda
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

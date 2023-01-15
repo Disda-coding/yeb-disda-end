@@ -3,6 +3,7 @@ package com.disda.cowork.config.security.components;
 import com.disda.cowork.po.Menu;
 import com.disda.cowork.po.Role;
 import com.disda.cowork.service.IMenuService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -20,6 +21,7 @@ import java.util.List;
  * 访问该url资源所需角色
  */
 @Component
+@Slf4j
 public class CustomFilter implements FilterInvocationSecurityMetadataSource {
 
     @Autowired
@@ -38,9 +40,12 @@ public class CustomFilter implements FilterInvocationSecurityMetadataSource {
     public Collection<ConfigAttribute> getAttributes(Object o) throws IllegalArgumentException {
         //获取请求的url
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
+        // 看看能不能在这里面加
+        log.error(((FilterInvocation) o).getRequest().getMethod());
         List<Menu> menus = menuService.getMenusWithRole();
         for (Menu menu : menus) {
             //判断请求url与菜单角色是否匹配
+//            antPathMatcher.
             if (antPathMatcher.match(menu.getUrl(),requestUrl)) {
                 //得到rname，并将其放入一个string集合中,一个url可能对应多个角色
                 String[] str = menu.getRoles().stream().map(Role::getName).toArray(String[]::new);
