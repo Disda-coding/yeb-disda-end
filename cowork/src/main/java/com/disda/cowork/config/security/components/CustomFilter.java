@@ -41,7 +41,7 @@ public class CustomFilter implements FilterInvocationSecurityMetadataSource {
         //获取请求的url
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
         // 看看能不能在这里面加
-        log.error(((FilterInvocation) o).getRequest().getMethod());
+        // log.error(((FilterInvocation) o).getRequest().getMethod());
         List<Menu> menus = menuService.getMenusWithRole();
         for (Menu menu : menus) {
             //判断请求url与菜单角色是否匹配

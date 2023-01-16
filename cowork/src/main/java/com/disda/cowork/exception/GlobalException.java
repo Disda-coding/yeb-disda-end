@@ -6,6 +6,8 @@ import com.disda.cowork.error.EmBusinessError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,6 +32,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @Slf4j
 public class GlobalException {
+
+    @ExceptionHandler({AccessDeniedException.class,AuthenticationCredentialsNotFoundException.class})
+    public RespBean AuthenticationFailedHandler(AuthenticationCredentialsNotFoundException e){
+        return RespBean.error("没有访问权限！");
+    }
 
     @ExceptionHandler({SQLException.class, DataIntegrityViolationException.class, BadSqlGrammarException.class})
     public RespBean mySqlException(SQLException e) {

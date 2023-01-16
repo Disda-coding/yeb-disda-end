@@ -10,7 +10,11 @@ import com.disda.cowork.service.IAdminService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,11 +34,12 @@ import java.util.Map;
  */
 @RestController
 @Api(tags = "登录控制器")
-@Log
+@Slf4j
 public class LoginController {
 
     @Autowired
     private IAdminService adminService;
+
 
     @ApiOperation(value = "登录后返回token")
     @PostMapping("/loginC")
@@ -59,10 +64,11 @@ public class LoginController {
     }
 
 
-
+    @PreAuthorize("hasAnyRole('ROLE_admin')")
     @ApiOperation(value = "退出登录")
     @PostMapping("/logout")
     public RespBean logout(HttpServletRequest request, HttpServletResponse response) {
+
         return RespBean.success("注销成功！");
     }
 
