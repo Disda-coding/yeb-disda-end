@@ -93,12 +93,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     // 不走拦截链了，但需要前端重发请求。
                     return;
                 }
-                // 如果用户未登录，且token不需要刷新
+                // 如果用户未登录，且token不需要刷新，每次请求相当于都要放入SecurityContextHolder，相当于一个请求链周期里面都有
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
                     //  加入Redis作用可以踢出用户和加快每次请求速度
                     // UserDetails userDetails= (UserDetails) redisTemplate.opsForValue().get("login_"+username);
                     // 验证Token是否有效，重新设置用户对象
                     if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                        // 使用UsernamePasswordAuthenticationToken构造函数，默认authenticated是true，即是认证过的
                         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

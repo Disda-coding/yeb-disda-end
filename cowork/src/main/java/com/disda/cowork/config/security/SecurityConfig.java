@@ -29,6 +29,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    LoginFailureHandler loginFailureHandler;
+
+    @Autowired
+    LoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
     private IAdminService adminService;
 
     @Autowired
@@ -93,10 +99,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //使用JWT，不需要csrf，关闭csrf防范，因为前后端分离我们不需要cookie防止跨域请求了
         http
                 .csrf().disable()
+
+                //使用springboot自带的登录逻辑，不够灵活
+                .formLogin()
+                .loginProcessingUrl("/test/login")
+                .successHandler(loginSuccessHandler)
+                .failureHandler(loginFailureHandler)
+
+                .and()
                 //基于token，不需要session
                 .sessionManagement()
                 // 无状态，不用session保存了
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+
                 .and()
                 //授权认证
                 .authorizeRequests()
@@ -111,6 +127,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
+
                 .and()
                 //禁用缓存
                 .headers()

@@ -101,11 +101,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if (!userDetails.isEnabled()) {
             throw new BusinessException(EmBusinessError.USER_LOCKED);
         }
-//        //更新security登录用户对象
-       UsernamePasswordAuthenticationToken authenToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+//
 //         redisTemplate.opsForValue().set("login_"+username, userDetails,expiration, TimeUnit.SECONDS);
+
         //放入SecurityContextHolder中，后续filter就可以获取登录状态
-        SecurityContextHolder.getContext().setAuthentication(authenToken);
+        // 禁用试试看，完全没问题，因为本次请求结束
+        // SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
         String token = jwtTokenUtil.generateToken(userDetails);
         //封装返回信息
