@@ -39,7 +39,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		Admin admin = adminService.getAdminByUserName(authentication.getName());
-		admin.setRoles(adminService.getRoles(admin.getId()));
+		// admin.setRoles(adminService.getRoles(admin.getId()));
 		UserDetails userDetails = admin;
 		//生成token
 		String token = jwtTokenUtil.generateToken(userDetails);

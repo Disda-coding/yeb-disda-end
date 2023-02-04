@@ -56,6 +56,7 @@ public class EmployeeController {
             @RequestParam(defaultValue = "10") Integer size,
             @RequestBody Employee employee,
             LocalDate[] beginDateScope) {
+        System.out.println(beginDateScope);
         return RespBean.success(employeeService.getEmployee(currentPage, size, employee, beginDateScope));
     }
 
@@ -66,6 +67,8 @@ public class EmployeeController {
             @RequestParam(defaultValue = "10") Integer size,
              Employee employee,
             LocalDate[] beginDateScope) {
+        System.out.println(currentPage);
+        System.out.println(size);
         return RespBean.success(employeeService.getEmployee(currentPage, size, employee, beginDateScope));
     }
 
